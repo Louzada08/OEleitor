@@ -1,6 +1,8 @@
 ﻿using MediatR;
-using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OEleitor.Domain.Notification
 {
@@ -13,6 +15,21 @@ namespace OEleitor.Domain.Notification
             _notifications = new List<NotificationDomain>();
         }
 
+        public virtual List<NotificationDomain> GetNotifications()
+        {
+            return _notifications;
+        }
+
+        public Task Handle(NotificationDomain notification, CancellationToken cancellationToken)
+        {
+            _notifications.Add(notification);
+            return Task.CompletedTask;
+        }
+
+        public virtual bool HasNotifications()
+        {
+            return _notifications.Any();
+        }
 
         public void Dispose()
         {
