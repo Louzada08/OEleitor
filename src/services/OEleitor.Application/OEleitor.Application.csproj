@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OEleitor.Domain\OEleitor.Domain\OEleitor.Domain.csproj" />
-    <ProjectReference Include="..\OEleitor.Infra.Data\OEleitor.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>
