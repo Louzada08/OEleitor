@@ -12,6 +12,9 @@ namespace OEleitor.Infra.Data.Context
         }
 
         public DbSet<Eleitor> Eleitores { get; set; }
+        public DbSet<Dependente> Dependentes { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
+        public DbSet<Bairro> Bairros { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
