@@ -2,6 +2,8 @@
 {
     public class Endereco : Entity
     {
+        public long EleitorId { get; }
+        public Eleitor Eleitor { get; }
         public string Logradouro { get; }
         public string? Numero { get; }
         public string? Complemento { get; }
@@ -9,7 +11,6 @@
         public string? Cep { get; }
         public string Cidade { get; }
         public string Estado { get; }
-        public long ClienteId { get; }
 
         public Endereco(string logradouro,
           string numero,
@@ -18,10 +19,10 @@
           string cep,
           string cidade,
           string estado,
-          long clienteId) => (Logradouro, Numero, Complemento, Cep,
-                            Cidade, Estado, ClienteId)
+          long eleitorId) => (Logradouro, Numero, Complemento, Cep,
+                            Cidade, Estado, EleitorId)
                           = (logradouro, numero, complemento, cep,
-                            cidade, estado, clienteId);
+                            cidade, estado, eleitorId);
         protected Endereco() { }
     }
 }

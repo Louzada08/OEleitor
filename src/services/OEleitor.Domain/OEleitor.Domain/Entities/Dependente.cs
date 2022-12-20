@@ -9,6 +9,7 @@ namespace OEleitor.Domain.Entities
     public class Dependente : Entity
     {
         public long EleitorId { get; private set; }
+        public Eleitor Eleitor { get; private set; }
         public string Nome { get; private set; }
         public TipoDependente Tipo { get; private set; }
         public DateTime? Nascimento { get; private set; }
