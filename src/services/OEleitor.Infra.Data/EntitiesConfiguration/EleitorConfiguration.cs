@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OEleitor.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OEleitor.Infra.Data.EntitiesConfiguration
 {
@@ -15,6 +10,7 @@ namespace OEleitor.Infra.Data.EntitiesConfiguration
         {
             builder.HasKey(t => t.Id);
             builder.Property(p => p.Nome).HasMaxLength(100).IsRequired();
+            builder.Property(p => p.Apelido).HasMaxLength(50).IsRequired(false);
             builder.Property(p => p.Observacao).HasMaxLength(200).IsRequired();
 
             builder.OwnsOne(c => c.Fone, tf =>
@@ -37,32 +33,6 @@ namespace OEleitor.Infra.Data.EntitiesConfiguration
                     .IsRequired(false)
                     .HasColumnName("Fone2TemWhatsapp");
             });
-
-//            builder.OwnsOne(c => c.Endereco, tf =>
-//            {
-
-//                tf.Property(c => c.Logradouro)
-//                    .IsRequired()
-//                    .HasColumnName("Logradouro")
-//                    .HasColumnType($"varchar(150)");
-
-//                tf.Property(c => c.Numero)
-//                    .IsRequired(false)
-//                    .HasColumnName("Numero")
-//                    .HasColumnType($"varchar(5)");
-
-//                tf.Property(c => c.Cidade)
-//                    .IsRequired()
-//                    .HasColumnName("Cidade")
-//;
-//                tf.Property(c => c.Estado)
-//                    .IsRequired()
-//                    .HasColumnType($"varchar(2)");
-
-//                tf.Property(c => c.Cep)
-//                    .IsRequired()
-//                    .HasColumnType($"varchar(9)");
-//            });
 
             builder.HasOne(f => f.Endereco)
                 .WithOne(c => c.Eleitor)

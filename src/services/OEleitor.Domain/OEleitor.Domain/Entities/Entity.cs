@@ -17,9 +17,9 @@ namespace OEleitor.Domain.Entities
 
         private List<INotification> _domainEvents;
         public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
-        public DateTime DataCadastro { get; protected set; }
-        public DateTime DataAlteracao { get; protected set; }
-        public DateTime DataExclusao { get; protected set; }
+        public DateTime? DataCadastro { get; set; }
+        public DateTime? DataAlteracao { get; set; }
+        public DateTime? DataExclusao { get; set; }
 
         protected Entity()
         {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using OEleitor.Domain.Entities;
 using OEleitor.Domain.Interfaces;
 using OEleitor.Infra.Data.Context;
 using System;
@@ -19,14 +20,20 @@ namespace OEleitor.Infra.Data.Repository.Base
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public virtual void Add(TEntity entity)
-        {
-            _context.Set<TEntity>().Add(entity);
-        }
+        //public virtual void Add(TEntity entity)
+        //{
+        //    _context.Set<TEntity>().Add(entity);
+        //}
 
-        public virtual async Task AddAsync(TEntity entity)
+        public virtual async Task AddAsync(TEntity tentity)
         {
-            await _context.Set<TEntity>().AddAsync(entity);
+            if (tentity is Entity entity)
+            {
+                entity.DataCadastro = DateTime.Now;
+                entity.DataAlteracao = DateTime.Now;
+            }
+
+            await _context.Set<TEntity>().AddAsync(tentity);
         }
 
         public virtual void AddRange(IEnumerable<TEntity> entities)
@@ -36,6 +43,11 @@ namespace OEleitor.Infra.Data.Repository.Base
 
         public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
+            if (entities is Entity entity)
+            {
+                entity.DataCadastro = DateTime.Now;
+                entity.DataAlteracao = DateTime.Now;
+            }
             await _context.Set<TEntity>().AddRangeAsync(entities);
         }
 

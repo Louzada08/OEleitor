@@ -17,6 +17,7 @@ namespace OEleitor.Infra.IoC
             ), b => b.MigrationsAssembly(typeof(OEleitorDbContext).Assembly.FullName)));
 
             services.AddScoped<IEleitorRepository, EleitorRepository>();
+            services.AddScoped<IBairroRepository, BairroRepository>();
 
             return services;
         }

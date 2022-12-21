@@ -3,13 +3,12 @@
     public class Bairro : Entity
     {
         public string BairroNome { get; private set; }
-        public long EnderecoId { get; private set; }
+        public Endereco Endereco { get; private set; }
 
         protected Bairro() { }
-        public Bairro(string bairroNome, long enderecoId)
+        public Bairro(string bairroNome)
         {
             BairroNome = bairroNome;
-            EnderecoId = enderecoId;
         }
     }
 }

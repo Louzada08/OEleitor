@@ -23,6 +23,9 @@ namespace OEleitor.Infra.Data.Context
                     property.SetColumnType("varchar(100)");
 
             modelBuilder.ApplyConfiguration(new EleitorConfiguration());
+            modelBuilder.ApplyConfiguration(new DependenteConfiguration());
+            modelBuilder.ApplyConfiguration(new EnderecoConfiguration());
+            modelBuilder.ApplyConfiguration(new BairroConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
