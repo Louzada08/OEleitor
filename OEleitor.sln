@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32413.511
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5953A3DB-472A-4A71-A66A-66A61019A368}"
 EndProject
@@ -13,13 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{90
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEleitor.Domain", "src\services\OEleitor.Domain\OEleitor.Domain\OEleitor.Domain.csproj", "{C3735F9C-BDC5-46D0-AA91-21EA8FB7E360}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEleitor.Infra.Data", "src\services\OEleitor.Infra.Data\OEleitor.Infra.Data.csproj", "{11C4B52D-78E5-476C-8FA1-B13011EB22AF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchMvc.WebUI", "src\web\CleanArchMvc.WebUI\CleanArchMvc.WebUI.csproj", "{56EE1384-3521-4C9E-BE18-AEBE2182B6A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OEleitor.Application", "src\services\OEleitor.Application\OEleitor.Application.csproj", "{4B14AABF-CD5F-4253-94C5-9060A8874CBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEleitor.Application", "src\services\OEleitor.Application\OEleitor.Application.csproj", "{4B14AABF-CD5F-4253-94C5-9060A8874CBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OEleitor.Infra.IoC", "src\services\OEleitor.Infra.IoC\OEleitor.Infra.IoC.csproj", "{E0697CD1-6400-4CDB-A8DB-72B2EA33D445}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEleitor.Infra.IoC", "src\services\OEleitor.Infra.IoC\OEleitor.Infra.IoC.csproj", "{E0697CD1-6400-4CDB-A8DB-72B2EA33D445}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEleitor.API", "src\services\OEleitor.API\OEleitor.API.csproj", "{B57A9FA2-F86B-463A-96F7-C094DE201897}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OEleitor.Logs", "src\services\OEleitor.Logs\OEleitor.Logs.csproj", "{B1624F9D-BA25-4D0F-873F-84FA3527A4DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OEleitor.Infra", "src\services\OEleitor.Infra\OEleitor.Infra.csproj", "{1D78FA83-6A08-4CBF-A6EA-FE2EA002A17F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +35,6 @@ Global
 		{C3735F9C-BDC5-46D0-AA91-21EA8FB7E360}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3735F9C-BDC5-46D0-AA91-21EA8FB7E360}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3735F9C-BDC5-46D0-AA91-21EA8FB7E360}.Release|Any CPU.Build.0 = Release|Any CPU
-		{11C4B52D-78E5-476C-8FA1-B13011EB22AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{11C4B52D-78E5-476C-8FA1-B13011EB22AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{11C4B52D-78E5-476C-8FA1-B13011EB22AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{11C4B52D-78E5-476C-8FA1-B13011EB22AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{56EE1384-3521-4C9E-BE18-AEBE2182B6A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{56EE1384-3521-4C9E-BE18-AEBE2182B6A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56EE1384-3521-4C9E-BE18-AEBE2182B6A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,6 +47,18 @@ Global
 		{E0697CD1-6400-4CDB-A8DB-72B2EA33D445}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0697CD1-6400-4CDB-A8DB-72B2EA33D445}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0697CD1-6400-4CDB-A8DB-72B2EA33D445}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B57A9FA2-F86B-463A-96F7-C094DE201897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B57A9FA2-F86B-463A-96F7-C094DE201897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B57A9FA2-F86B-463A-96F7-C094DE201897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B57A9FA2-F86B-463A-96F7-C094DE201897}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1624F9D-BA25-4D0F-873F-84FA3527A4DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1624F9D-BA25-4D0F-873F-84FA3527A4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1624F9D-BA25-4D0F-873F-84FA3527A4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1624F9D-BA25-4D0F-873F-84FA3527A4DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D78FA83-6A08-4CBF-A6EA-FE2EA002A17F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D78FA83-6A08-4CBF-A6EA-FE2EA002A17F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D78FA83-6A08-4CBF-A6EA-FE2EA002A17F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D78FA83-6A08-4CBF-A6EA-FE2EA002A17F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,10 +68,12 @@ Global
 		{1E282B6F-55F5-49B8-ADD2-0D3D7657B609} = {F36EB377-0497-4132-B46A-F51316C0AAD3}
 		{90C77D66-9932-45D8-A5CD-AF855EA99962} = {5953A3DB-472A-4A71-A66A-66A61019A368}
 		{C3735F9C-BDC5-46D0-AA91-21EA8FB7E360} = {90C77D66-9932-45D8-A5CD-AF855EA99962}
-		{11C4B52D-78E5-476C-8FA1-B13011EB22AF} = {90C77D66-9932-45D8-A5CD-AF855EA99962}
 		{56EE1384-3521-4C9E-BE18-AEBE2182B6A4} = {1E282B6F-55F5-49B8-ADD2-0D3D7657B609}
 		{4B14AABF-CD5F-4253-94C5-9060A8874CBD} = {90C77D66-9932-45D8-A5CD-AF855EA99962}
 		{E0697CD1-6400-4CDB-A8DB-72B2EA33D445} = {90C77D66-9932-45D8-A5CD-AF855EA99962}
+		{B57A9FA2-F86B-463A-96F7-C094DE201897} = {90C77D66-9932-45D8-A5CD-AF855EA99962}
+		{B1624F9D-BA25-4D0F-873F-84FA3527A4DA} = {90C77D66-9932-45D8-A5CD-AF855EA99962}
+		{1D78FA83-6A08-4CBF-A6EA-FE2EA002A17F} = {90C77D66-9932-45D8-A5CD-AF855EA99962}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B7B8C93-0848-4780-8798-BC256FC27390}

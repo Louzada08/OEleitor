@@ -5,9 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OEleitor.Application\OEleitor.Application.csproj" />
     <ProjectReference Include="..\OEleitor.Domain\OEleitor.Domain\OEleitor.Domain.csproj" />
-    <ProjectReference Include="..\OEleitor.Infra.Data\OEleitor.Infra.Data.csproj" />
+    <ProjectReference Include="..\OEleitor.Infra\OEleitor.Infra.csproj" />
   </ItemGroup>
 
 </Project>

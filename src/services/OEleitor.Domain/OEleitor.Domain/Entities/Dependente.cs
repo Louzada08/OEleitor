@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OEleitor.Domain.Entities
 {
-    public class Dependente : Entity
+    public class Dependente : BaseEntity
     {
-        public long EleitorId { get; private set; }
+        public Guid EleitorId { get; private set; }
         public Eleitor Eleitor { get; private set; }
         public string Nome { get; private set; }
         public TipoDependente Tipo { get; private set; }
@@ -17,7 +17,7 @@ namespace OEleitor.Domain.Entities
 
         protected Dependente() { }
 
-        public Dependente(string nome, DateTime nascimento, string fone, long eleitorId )
+        public Dependente(string nome, DateTime nascimento, string fone, Guid eleitorId )
         {
             Nome = nome;
             Nascimento = nascimento;

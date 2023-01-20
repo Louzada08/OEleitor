@@ -5,7 +5,8 @@ namespace OEleitor.Domain.Interfaces
 {
     public interface IUnitOfWork
     {
-        void Commit();
+        Task<bool> Commit();
+        bool DatabaseExists();
         Task CommitAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

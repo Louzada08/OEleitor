@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OEleitor.Domain.Entities
 {
-    public class Eleitor : Entity
+    public class Eleitor : BaseEntity
     {
         public string Nome { get; private set; }
         public string? Apelido { get; private set; }
@@ -16,13 +16,16 @@ namespace OEleitor.Domain.Entities
         public string? Observacao { get; private set; }
 
         protected Eleitor() { }
-        public Eleitor(string nome, string apelido, DateTime aniversario, string email, string observacao)
+        public Eleitor(string nome, string apelido, DateTime aniversario, string email, 
+                       string observacao, FoneEleitor fone, SexoEleitor sexo)
         {
             Nome = nome;
             Apelido = apelido;
             Aniversario = aniversario;
             Email = email;
             Observacao = observacao;
+            Fone = fone;
+            Sexo = sexo;
         }
 
         public void AtribuirEndereco(Endereco endereco)

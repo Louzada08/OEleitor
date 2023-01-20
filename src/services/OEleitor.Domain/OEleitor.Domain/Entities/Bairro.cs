@@ -1,6 +1,6 @@
 ﻿namespace OEleitor.Domain.Entities
 {
-    public class Bairro : Entity
+    public class Bairro : BaseEntity
     {
         public string BairroNome { get; private set; }
         public Endereco Endereco { get; private set; }

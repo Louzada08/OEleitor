@@ -1,14 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using OEleitor.Domain.Entities;
+using OEleitor.Domain.Interfaces;
+using OEleitor.Domain.Mediator.Interfaces;
+using OEleitor.Domain.Messages;
 using OEleitor.Infra.Data.EntitiesConfiguration;
+using System.Data.Common;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OEleitor.Infra.Data.Context
 {
-    public class OEleitorDbContext : DbContext
+    public class OEleitorDbContext : DbContext, IUnitOfWork
     {
-        public OEleitorDbContext(DbContextOptions<OEleitorDbContext> options) : base(options)
+        private readonly IMediatorHandler _mediatorHandler;
+        public OEleitorDbContext(DbContextOptions<OEleitorDbContext> options, 
+                                IMediatorHandler mediatorHandler) : base(options)
         {
+            _mediatorHandler = mediatorHandler;
         }
 
         public DbSet<Eleitor> Eleitores { get; set; }
@@ -18,6 +29,11 @@ namespace OEleitor.Infra.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<ValidationResult>();
+            modelBuilder.Ignore<Event>();
+
+            base.OnModelCreating(modelBuilder);
+
             foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
                     e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                     property.SetColumnType("varchar(100)");
@@ -26,8 +42,29 @@ namespace OEleitor.Infra.Data.Context
             modelBuilder.ApplyConfiguration(new DependenteConfiguration());
             modelBuilder.ApplyConfiguration(new EnderecoConfiguration());
             modelBuilder.ApplyConfiguration(new BairroConfiguration());
-
-            base.OnModelCreating(modelBuilder);
         }
+
+        public bool DatabaseExists()
+        {
+            try
+            {
+                return Database.GetService<IRelationalDatabaseCreator>().Exists();
+            }
+            catch (DbException)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> Commit()
+        {
+            if (await base.SaveChangesAsync() <= 0)
+                return false;
+
+            await _mediatorHandler.PublishEvents(this);
+
+            return true;
+        }
+
     }
 }

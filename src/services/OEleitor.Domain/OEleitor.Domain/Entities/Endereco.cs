@@ -1,13 +1,15 @@
-﻿namespace OEleitor.Domain.Entities
+﻿using System;
+
+namespace OEleitor.Domain.Entities
 {
-    public class Endereco : Entity
+    public class Endereco : BaseEntity
     {
-        public long EleitorId { get; private set; }
+        public Guid EleitorId { get; private set; }
         public Eleitor Eleitor { get; private set; }
         public string Logradouro { get; private set; }
         public string? Numero { get; private set; }
         public string? Complemento { get; private set; }
-        public long BairroId { get; private set; }
+        public Guid BairroId { get; private set; }
         public Bairro Bairro { get; private set; }
         public string? Cep { get; private set; }
         public string Cidade { get; private set; }
@@ -16,11 +18,11 @@
         public Endereco(string logradouro,
           string numero,
           string complemento,
-          long bairroId,
+          Guid bairroId,
           string cep,
           string cidade,
           string estado,
-          long eleitorId) => (Logradouro, Numero, Complemento, BairroId, Cep,
+          Guid eleitorId) => (Logradouro, Numero, Complemento, BairroId, Cep,
                             Cidade, Estado, EleitorId)
                           = (logradouro, numero, complemento, bairroId, cep,
                             cidade, estado, eleitorId);
