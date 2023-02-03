@@ -1,9 +1,10 @@
 ﻿using OEleitor.Domain.Entities;
-using OEleitor.Domain.Interfaces.Base;
+using OEleitor.Infra.CrossCurtting.Data;
+using OEleitor.Infra.CrossCurtting.DomainObjects.Interfaces;
 
 namespace OEleitor.Domain.Interfaces
 {
-    public interface IEleitorRepository : IBaseRepository<Eleitor>
+    public interface IEleitorRepository : IBaseRepository<Eleitor>, IAggregateRoot
     {
     }
 }

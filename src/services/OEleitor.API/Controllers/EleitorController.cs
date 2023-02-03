@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using FluentValidation.Results;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OEleitor.API.Controllers;
 using OEleitor.Application.Commands.EleitorModelo.Requests;
 using OEleitor.Application.Commands.EleitorModelo.Responses;
 using OEleitor.Domain.Interfaces.Services;
-using OEleitor.Domain.Validation;
+using OEleitor.Domain.Mediator.Interfaces;
 
 namespace Backoffice.Api.Controllers;
 
@@ -15,18 +13,23 @@ namespace Backoffice.Api.Controllers;
 public class EleitorController : MainController
 {
     private readonly IEleitorService _service;
+    private readonly IMediatorHandler _mediator;
+    private readonly IMapper _mapper;
 
-    public EleitorController(IMediator mediator, IEleitorService service, IMapper mapper) : base(mapper, mediator)
+
+    public EleitorController(IMediatorHandler mediator, IEleitorService service, IMapper mapper) 
     {
         _service = service;
-    } 
+        _mediator = mediator;
+        _mapper = mapper;
+    }
 
     [HttpPost]
-   // [Authorize(Policy = "Loja")]
+    // [Authorize(Policy = "Loja")]
     [ProducesResponseType(typeof(AdicionarEleitorResponse), StatusCodes.Status201Created)]
     public async Task<IActionResult> Create([FromBody] AdicionarEleitorCommand command)
     {
-        var response = await _mediator.Send(command);
+        var response = await _mediator.EnviarComando(command);
         return CustomResponse(response);
     }
 
@@ -43,15 +46,11 @@ public class EleitorController : MainController
 
             if (customer is not null) return CustomResponse(customer);
 
-            var bag = new ValidationResultBag();
-            bag.Errors.Add(new ValidationFailure("error", "Customer not found.", StatusCodes.Status404NotFound));
-            return CustomResponse(bag);
+            return CustomResponse("Customer not found.");
         }
         catch (Exception ex)
         {
-            var bag = new ValidationResultBag();
-            bag.Errors.Add(new ValidationFailure("error", ex.Message));
-            return CustomResponse(bag);
+            return CustomResponse(ex.Message);
         }
     }
 

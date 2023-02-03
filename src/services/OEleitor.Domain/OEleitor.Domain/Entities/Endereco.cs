@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OEleitor.Infra.CrossCurtting.DomainObjects;
+using System;
 
 namespace OEleitor.Domain.Entities
 {

@@ -9,6 +9,7 @@ namespace OEleitor.Infra.IoC.IOC
         public static IServiceCollection AddServicesInjector(this IServiceCollection services)
         {
             services.AddScoped<IEleitorService, EleitorService>();
+            services.AddScoped<IBairroService, BairroService>();
 
             return services;
         }

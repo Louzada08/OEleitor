@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OEleitor.Domain\OEleitor.Domain\OEleitor.Domain.csproj" />
+    <ProjectReference Include="..\OEleitor.Infra.CrossCurtting\OEleitor.Infra.CrossCurtting.csproj" />
   </ItemGroup>
 
   <ItemGroup>

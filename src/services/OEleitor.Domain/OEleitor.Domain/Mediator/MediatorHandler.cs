@@ -1,7 +1,7 @@
-﻿using MediatR;
+﻿using FluentValidation.Results;
+using MediatR;
 using OEleitor.Domain.Mediator.Interfaces;
-using OEleitor.Domain.Messages;
-using OEleitor.Domain.Validation;
+using OEleitor.Infra.CrossCurtting.Messages;
 using System.Threading.Tasks;
 
 namespace OEleitor.Domain.Mediator
@@ -15,14 +15,14 @@ namespace OEleitor.Domain.Mediator
             _mediator = mediator;
         }
 
-        public async Task PublishEvent<T>(T evnt) where T : Event
+        public async Task<ValidationResult> EnviarComando<T>(T comando) where T : Command
         {
-            await _mediator.Publish(evnt);
+            return await _mediator.Send(comando);
         }
 
-        public async Task<ValidationResultBag> SendCommand<T>(T command) where T : Command
+        public async Task PublicarEvento<T>(T evento) where T : Event
         {
-            return await _mediator.Send(command);
+            await _mediator.Publish(evento);
         }
     }
 }

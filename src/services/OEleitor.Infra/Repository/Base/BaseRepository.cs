@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using OEleitor.Domain.Entities;
-using OEleitor.Domain.Interfaces;
-using OEleitor.Domain.Interfaces.Base;
 using OEleitor.Infra.Context;
+using OEleitor.Infra.CrossCurtting.Data;
+using OEleitor.Infra.CrossCurtting.DomainObjects;
 using System.Linq.Expressions;
 
 namespace OEleitor.Infra.Repository.Base
@@ -26,12 +25,6 @@ namespace OEleitor.Infra.Repository.Base
 
         public async Task<TEntity> AddAsync(TEntity entity)
         {
-            if (entity is BaseEntity baseEntity)
-            {
-                baseEntity.DataCadastro = DateTime.Now;
-                baseEntity.DataAlteracao = DateTime.Now;
-            }
-
             await DbSet.AddAsync(entity);
             return entity;
         }
@@ -40,8 +33,8 @@ namespace OEleitor.Infra.Repository.Base
         {
             if (entities is BaseEntity baseEntity)
             {
-                baseEntity.DataCadastro = DateTime.Now;
-                baseEntity.DataAlteracao = DateTime.Now;
+                baseEntity.DataCadastro = DateTime.UtcNow;
+                baseEntity.DataAlteracao = DateTime.UtcNow;
             }
 
             await DbSet.AddRangeAsync(entities);

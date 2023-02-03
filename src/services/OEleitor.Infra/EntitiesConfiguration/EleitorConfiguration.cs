@@ -11,6 +11,7 @@ namespace OEleitor.Infra.EntitiesConfiguration
             builder.HasKey(t => t.Id);
             builder.Property(p => p.Nome).HasMaxLength(100).IsRequired();
             builder.Property(p => p.Apelido).HasMaxLength(50).IsRequired(false);
+            builder.Property(p => p.EnderecoId).IsRequired();
             builder.Property(p => p.Observacao).HasMaxLength(200).IsRequired();
 
             builder.OwnsOne(c => c.Fone, tf =>

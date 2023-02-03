@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OEleitor.Domain.Validation;
 
 namespace OEleitor.API.Controllers;
 
@@ -9,14 +9,6 @@ namespace OEleitor.API.Controllers;
 public abstract class MainController : Controller
 {
     protected ICollection<string> Erros = new List<string>();
-    protected readonly IMediator _mediator;
-    protected readonly IMapper _mapper;
-
-    public MainController(IMapper mapper, IMediator mediator)
-    {
-        _mapper = mapper;
-        _mediator = mediator;
-    }
 
     protected ActionResult CustomResponse(object result = null)
     {
@@ -29,15 +21,14 @@ public abstract class MainController : Controller
         }));
     }
 
-    protected ActionResult CustomResponse(ValidationResultBag validationResultBag)
+    protected ActionResult CustomResponse(ValidationResult validationResult)
     {
-        if (validationResultBag.Errors.Count > 0)
+        foreach (var erro in validationResult.Errors)
         {
-            var erros = validationResultBag.Errors.Select(x => x.ErrorMessage).ToList();
-            foreach (var erro in erros)
-                AdicionarErroProcessamento(erro);
+            AdicionarErroProcessamento(erro.ErrorMessage);
         }
-        return CustomResponse(validationResultBag.Data);
+
+        return CustomResponse();
     }
 
     protected bool OperacaoValida()

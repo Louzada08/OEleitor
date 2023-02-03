@@ -11,6 +11,7 @@ namespace OEleitor.Infra.IoC.IOC
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new EleitorProfile());
+                mc.AddProfile(new BairroProfile());
                 mc.AddProfile(new UserProfile());
             });
 

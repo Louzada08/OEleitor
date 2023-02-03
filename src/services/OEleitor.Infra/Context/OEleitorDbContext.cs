@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using OEleitor.Domain.Entities;
-using OEleitor.Domain.Interfaces;
-using OEleitor.Domain.Interfaces.Base;
 using OEleitor.Domain.Mediator.Interfaces;
-using OEleitor.Domain.Messages;
+using OEleitor.Infra.CrossCurtting.Data;
+using OEleitor.Infra.CrossCurtting.DomainObjects.Interfaces;
+using OEleitor.Infra.CrossCurtting.Messages;
 using OEleitor.Infra.EntitiesConfiguration;
 using OEleitor.Infra.Extensions;
+using System.Data;
 using System.Data.Common;
 
 namespace OEleitor.Infra.Context
@@ -20,6 +21,8 @@ namespace OEleitor.Infra.Context
                                 IMediatorHandler mediatorHandler) : base(options)
         {
             _mediatorHandler = mediatorHandler;
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         public DbSet<Eleitor> Eleitores { get; set; }
@@ -31,6 +34,7 @@ namespace OEleitor.Infra.Context
         {
             modelBuilder.Ignore<ValidationResult>();
             modelBuilder.Ignore<Event>();
+            modelBuilder.Ignore<FoneEleitor>();
 
             base.OnModelCreating(modelBuilder);
 
@@ -62,19 +66,30 @@ namespace OEleitor.Infra.Context
             }
         }
 
-        public async Task<bool> Commit()
+        public async Task<bool> CommitAsync()
         {
-            if (await base.SaveChangesAsync() <= 0)
-                return false;
+            foreach (var entry in ChangeTracker.Entries()
+                .Where(entry => entry.Entity.GetType().GetProperty("DataCadastro") is not null))
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property("DataCadastro").CurrentValue = DateTime.UtcNow;
+                    entry.Property("DataAlteracao").CurrentValue = DateTime.UtcNow;
+                }
 
-            await _mediatorHandler.PublishEvents(this);
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Property("DataCadastro").IsModified = false;
+                    entry.Property("DataAlteracao").IsModified = false;
+                }
+            }
 
-            return true;
+            var sucesso = await base.SaveChangesAsync() > 0;
+
+            if (sucesso) await _mediatorHandler.PublicarEventos(this);
+
+            return sucesso;
         }
 
-        public Task CommitAsync(CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

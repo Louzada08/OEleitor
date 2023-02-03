@@ -15,6 +15,5 @@ namespace OEleitor.Infra.Repository
             _context = context;
         }
 
-        IUnitOfWork UnitOfWork => _context;
     }
 }

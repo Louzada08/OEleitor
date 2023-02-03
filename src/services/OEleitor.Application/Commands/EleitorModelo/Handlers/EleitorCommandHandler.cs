@@ -4,8 +4,8 @@ using MediatR;
 using OEleitor.Application.Commands.EleitorModelo.Requests;
 using OEleitor.Domain.Entities;
 using OEleitor.Domain.Interfaces;
-using OEleitor.Domain.Messages;
-using OEleitor.Domain.Validation;
+using OEleitor.Infra.CrossCurtting.Messages;
+using OEleitor.Infra.CrossCurtting.Validation;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,11 +16,10 @@ namespace OEleitor.Application.Commands.EleitorModelo.Handlers
     {
         private readonly IMapper _mapper;
         private readonly IEleitorRepository _eleitorRepo;
-        public EleitorCommandHandler(IMapper mapper, IEleitorRepository eleitorRepository
-        ) : base()
+        public EleitorCommandHandler(IMapper mapper, IEleitorRepository eleitorRepository)
         {
-            _eleitorRepo = eleitorRepository;
             _mapper = mapper;
+            _eleitorRepo = eleitorRepository;
         }
 
         public async Task<ValidationResultBag> Handle(AdicionarEleitorCommand request, CancellationToken cancellationToken)
@@ -31,18 +30,18 @@ namespace OEleitor.Application.Commands.EleitorModelo.Handlers
                 return ValidationResult;
             }
 
-            var eleitores = await _eleitorRepo.GetAsync(x => x.Nome.Contains(request.Nome));
+            var eleitores = await _eleitorRepo.GetAsync(x => x.Email.Contains(request.Email));
 
             if (eleitores is not null)
+            {
                 ValidationResult.Errors.Add(new ValidationFailure("Error", $"Eleitor já cadastrado."));
                 return ValidationResult;
+            }
 
-            var dados = new AdicionarEleitorCommand();
-            var eleitor = _mapper.Map<Eleitor>(dados);
+            var eleitor = _mapper.Map<Eleitor>(request);
 
-            await _eleitorRepo.AddAsync(eleitor);
-            //await CommittAsync();
-
+            var result = await _eleitorRepo.AddAsync(eleitor);
+            var ok = await _eleitorRepo.UnitOfWork.CommitAsync();
             return ValidationResult;
         }
     }

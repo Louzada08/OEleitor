@@ -3,9 +3,9 @@ using OEleitor.Application.Commands.EleitorModelo.Requests;
 
 namespace OEleitor.Application.Commands.EleitorModelo.Validations
 {
-    public class AdicionarEleitorCommandValidator : AbstractValidator<AdicionarEleitorCommand>
+    public class AdicionarEleitorValidation : AbstractValidator<AdicionarEleitorCommand>
     {
-        public AdicionarEleitorCommandValidator()
+        public AdicionarEleitorValidation()
         {
             RuleFor(x => x.Nome)
                 .NotEmpty().WithMessage("O Nome deve ser informado.");

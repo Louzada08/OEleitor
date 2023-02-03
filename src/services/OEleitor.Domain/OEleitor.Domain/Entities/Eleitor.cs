@@ -1,36 +1,39 @@
-﻿using System;
+﻿using OEleitor.Infra.CrossCurtting.DomainObjects;
+using OEleitor.Infra.CrossCurtting.DomainObjects.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace OEleitor.Domain.Entities
 {
-    public class Eleitor : BaseEntity
+    public class Eleitor : BaseEntity, IAggregateRoot
     {
         public string Nome { get; private set; }
         public string? Apelido { get; private set; }
         public DateTime? Aniversario { get; private set; }
-        public SexoEleitor Sexo { get; private set; }
+        public SexoEleitor Sexo { get; protected set; }
         public string? Email { get; private set; }
+        public Guid EnderecoId { get; private set; }
         public Endereco Endereco { get; private set; }
-        public FoneEleitor Fone { get; private set; }
-        public ICollection<Dependente> Dependentes { get; set; }
+        public FoneEleitor Fone { get; protected set; }
+        public ICollection<Dependente> Dependentes { get; private set; }
         public string? Observacao { get; private set; }
 
-        protected Eleitor() { }
-        public Eleitor(string nome, string apelido, DateTime aniversario, string email, 
-                       string observacao, FoneEleitor fone, SexoEleitor sexo)
+        protected Eleitor()
+        {
+            Dependentes = new List<Dependente>();
+        }
+
+        public Eleitor(string nome, string apelido, DateTime aniversario, string email,
+                       string observacao, string fone1, bool fone1TemWp, string fone2,
+                       bool fone2TemWp, SexoEleitor sexo)
         {
             Nome = nome;
             Apelido = apelido;
             Aniversario = aniversario;
             Email = email;
             Observacao = observacao;
-            Fone = fone;
+            Fone = new FoneEleitor(fone1, fone1TemWp, fone2, fone2TemWp);
             Sexo = sexo;
-        }
-
-        public void AtribuirEndereco(Endereco endereco)
-        {
-            Endereco = endereco;
         }
 
         public void AtribuirFone(FoneEleitor foneEleitor)
@@ -41,20 +44,6 @@ namespace OEleitor.Domain.Entities
         public void AtribuirSexo(SexoEleitor sexoEleitor)
         {
             Sexo = sexoEleitor;
-        }
-
-        public enum SexoEleitor
-        {
-            Masculino = 1,
-            Feminino
-        }
-        
-        public class FoneEleitor
-        {
-            public string? Fone1 { get; private set; }
-            public bool? Fone1TemWhatsapp { get; private set; }
-            public string? Fone2 { get; private set; }
-            public bool? Fone2TemWhatsapp { get; private set; }
         }
     }
 }

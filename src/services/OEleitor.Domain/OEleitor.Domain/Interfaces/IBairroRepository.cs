@@ -1,5 +1,5 @@
 ﻿using OEleitor.Domain.Entities;
-using OEleitor.Domain.Interfaces.Base;
+using OEleitor.Infra.CrossCurtting.Data;
 
 namespace OEleitor.Domain.Interfaces
 {

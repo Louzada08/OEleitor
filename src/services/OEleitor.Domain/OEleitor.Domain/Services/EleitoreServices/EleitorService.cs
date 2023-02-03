@@ -27,7 +27,7 @@ public class EleitorService : IEleitorService
     public async Task<Eleitor> AdicionaEleitor(Eleitor eleitor)
     {
         var ret = await _repository.AddAsync(eleitor);
-        await _repository.UnitOfWork.Commit();
+        await _repository.UnitOfWork.CommitAsync();
         return ret;
     }
 }

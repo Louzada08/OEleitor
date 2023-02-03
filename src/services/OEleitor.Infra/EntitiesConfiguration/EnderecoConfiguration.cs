@@ -15,6 +15,12 @@ namespace OEleitor.Infra.EntitiesConfiguration
             builder.Property(p => p.Cep).HasMaxLength(50).IsRequired(false);
             builder.Property(p => p.Cidade).HasMaxLength(50).IsRequired();
             builder.Property(p => p.Estado).HasMaxLength(2).IsRequired();
+
+            builder.HasOne(d => d.Bairro)
+                    .WithOne()
+                    .HasForeignKey<Endereco>(fk => fk.BairroId)
+                    .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

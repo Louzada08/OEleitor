@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OEleitor.Domain.Interfaces.Base;
+using OEleitor.Infra.CrossCurtting.DomainObjects.Interfaces;
 using System.Reflection;
 
 namespace OEleitor.Infra.Extensions

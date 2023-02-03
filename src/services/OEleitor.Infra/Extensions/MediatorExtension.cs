@@ -6,7 +6,7 @@ namespace OEleitor.Infra.Extensions
 {
     public static class MediatorExtension
     {
-        public static async Task PublishEvents<T>(this IMediatorHandler mediator, T ctx) where T : DbContext
+        public static async Task PublicarEventos<T>(this IMediatorHandler mediator, T ctx) where T : DbContext
         {
             var domainEntities = ctx.ChangeTracker
                 .Entries<Entity>()
@@ -21,7 +21,7 @@ namespace OEleitor.Infra.Extensions
 
             var tasks = domainEvents
                 .Select(async domainEvent => {
-                    await mediator.PublishEvent(domainEvent);
+                    await mediator.PublicarEvento(domainEvent);
                 });
 
             await Task.WhenAll(tasks);

@@ -1,9 +1,11 @@
-﻿namespace OEleitor.Domain.Entities
+﻿using OEleitor.Infra.CrossCurtting.DomainObjects;
+
+namespace OEleitor.Domain.Entities
 {
     public class Bairro : BaseEntity
     {
         public string BairroNome { get; private set; }
-        public Endereco Endereco { get; private set; }
+        //public Endereco Endereco { get; private set; }
 
         protected Bairro() { }
         public Bairro(string bairroNome)

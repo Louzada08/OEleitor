@@ -17,7 +17,7 @@ namespace OEleitor.Infra.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -111,6 +111,9 @@ namespace OEleitor.Infra.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("varchar(100)");
 
+                    b.Property<Guid>("EnderecoId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -201,7 +204,7 @@ namespace OEleitor.Infra.Migrations
 
             modelBuilder.Entity("OEleitor.Domain.Entities.Eleitor", b =>
                 {
-                    b.OwnsOne("OEleitor.Domain.Entities.Eleitor+FoneEleitor", "Fone", b1 =>
+                    b.OwnsOne("OEleitor.Domain.Entities.FoneEleitor", "Fone", b1 =>
                         {
                             b1.Property<Guid>("EleitorId")
                                 .HasColumnType("uuid");
@@ -236,7 +239,7 @@ namespace OEleitor.Infra.Migrations
             modelBuilder.Entity("OEleitor.Domain.Entities.Endereco", b =>
                 {
                     b.HasOne("OEleitor.Domain.Entities.Bairro", "Bairro")
-                        .WithOne("Endereco")
+                        .WithOne()
                         .HasForeignKey("OEleitor.Domain.Entities.Endereco", "BairroId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -250,11 +253,6 @@ namespace OEleitor.Infra.Migrations
                     b.Navigation("Bairro");
 
                     b.Navigation("Eleitor");
-                });
-
-            modelBuilder.Entity("OEleitor.Domain.Entities.Bairro", b =>
-                {
-                    b.Navigation("Endereco");
                 });
 
             modelBuilder.Entity("OEleitor.Domain.Entities.Eleitor", b =>

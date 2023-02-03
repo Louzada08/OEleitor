@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using OEleitor.Domain.Messages;
-using OEleitor.Domain.Validation;
+﻿using FluentValidation.Results;
+using OEleitor.Infra.CrossCurtting.Messages;
+using System.Threading.Tasks;
 
 namespace OEleitor.Domain.Mediator.Interfaces
 {
     public interface IMediatorHandler
     {
-        public Task PublishEvent<T>(T evnt) where T : Event;
-        public Task<ValidationResultBag> SendCommand<T>(T command) where T : Command;
+        public Task PublicarEvento<T>(T evnt) where T : Event;
+        public Task<ValidationResult> EnviarComando<T>(T command) where T : Command;
     }
 }

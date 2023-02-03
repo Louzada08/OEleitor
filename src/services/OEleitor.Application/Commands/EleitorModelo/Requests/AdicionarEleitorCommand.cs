@@ -1,9 +1,9 @@
 ﻿using OEleitor.Application.Commands.EleitorModelo.Validations;
+using OEleitor.Application.Commands.EnderecoModelo.Requests;
 using OEleitor.Domain.Entities;
-using OEleitor.Domain.Messages;
+using OEleitor.Infra.CrossCurtting.Messages;
 using System;
 using System.Collections.Generic;
-using static OEleitor.Domain.Entities.Eleitor;
 
 namespace OEleitor.Application.Commands.EleitorModelo.Requests;
 
@@ -14,14 +14,15 @@ public class AdicionarEleitorCommand : Command
     public DateTime? Aniversario { get; set; }
     public SexoEleitor Sexo { get; set; }
     public string? Email { get; set; }
-    public Endereco Endereco { get; set; }
     public FoneEleitor Fone { get; set; }
-    public ICollection<Dependente> Dependentes { get; set; }
     public string? Observacao { get; set; }
+    public Guid EnderecoId { get; set; }
+    public EnderecoCommand Endereco { get; set; }
+    public IEnumerable<AdicionarDependenteCommand> Dependentes { get; set; }
 
     public override bool IsValid()
     {
-        ValidationResult = new AdicionarEleitorCommandValidator().Validate(this);
+        ValidationResult = new AdicionarEleitorValidation().Validate(this);
         return ValidationResult.IsValid;
     }
 }

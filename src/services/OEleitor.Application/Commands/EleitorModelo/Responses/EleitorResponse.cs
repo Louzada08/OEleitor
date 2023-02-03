@@ -1,4 +1,5 @@
-﻿using OEleitor.Domain.Entities;
+﻿using OEleitor.Domain.Dtos;
+using OEleitor.Domain.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -12,10 +13,10 @@ public class EleitorResponse
     public DateTime? Aniversario { get; set; }
     public SexoEleitor Sexo { get; set; }
     public string? Email { get; set; }
-    public Endereco Endereco { get; set; }
+    public EnderecoDto EnderecoDto { get; set; }
     public FoneEleitor Fone { get; set; }
-    public ICollection<Dependente> Dependentes { get; set; }
     public string? Observacao { get; set; }
+    public ICollection<DependenteDto> DependentesDto { get; set; }
 }
 
 public enum SexoEleitor
