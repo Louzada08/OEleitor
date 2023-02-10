@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OEleitor.WebApp.MVC.Data;
 using OEleitor.WebApp.MVC.Models;
@@ -6,8 +7,7 @@ using OEleitor.WebApp.MVC.Services;
 
 namespace OEleitor.WebApp.MVC.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
+    [Authorize]
     public class BairroViewModelsController : MainController
     {
         private readonly OEleitorWebAppMVCContext _context;
@@ -21,6 +21,8 @@ namespace OEleitor.WebApp.MVC.Controllers
 
         // GET: BairroViewModels
         [HttpGet]
+        [Route("")]
+        [Route("bairros")]
         public async Task<IActionResult> Index()
         {
               return View(await _bairroService.ObterTodosBairros());

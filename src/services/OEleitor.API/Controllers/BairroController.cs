@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OEleitor.API.Controllers;
 using OEleitor.Application.Commands.EleitorModelo.Requests;
@@ -27,14 +28,14 @@ public class BairroController : MainController
     [HttpPost]
     // [Authorize(Policy = "Loja")]
     [ProducesResponseType(typeof(AdicionarEleitorResponse), StatusCodes.Status201Created)]
-    public async Task<IActionResult> Create([FromBody] AdicionarEleitorCommand command)
+    public async Task<IActionResult> Create([FromBody] AdicionarBairroCommand command)
     {
         var response = await _mediator.EnviarComando(command);
         return CustomResponse(response);
     }
 
 
-    [HttpGet]
+    [HttpGet("obtertodos")]
     [ProducesResponseType(typeof(BairroResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(BairroResponse), StatusCodes.Status404NotFound)]
@@ -44,9 +45,9 @@ public class BairroController : MainController
         {
             var bairros = _mapper.Map<IEnumerable<BairroResponse>>(await _service.ObterTodos());
 
-            if (bairros is not null) return CustomResponse(bairros);
+            if (bairros.Any()) return CustomResponse(bairros);
 
-            return CustomResponse("Bairro not found.");
+            return CustomResponse("Nenhum Bairro foi encontrado.");
         }
         catch (Exception ex)
         {

@@ -9,6 +9,10 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
     .AddEnvironmentVariables();
 
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+builder.Services.Configure<AppSettings>(builder.Configuration);
+
 // ConfigureServices
 builder.Services.AddIdentityConfiguration(builder.Configuration);
 
@@ -35,12 +39,13 @@ app.UseAuthorization();
 
 app.UseGlobalizationConfig();
 
+//app.MapRazorPages();
+
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllerRoute(
-            name: "default",
-      pattern: "{controller=BairroViewModels}/{action=Index}/{id?}");
+    name: "default",
+    pattern: "{controller=BairroViewModels}/{action=Index}/{id?}");
 
-app.MapRazorPages();
 
 app.Run();

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation.Results;
-using MediatR;
+﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace OEleitor.API.Controllers;

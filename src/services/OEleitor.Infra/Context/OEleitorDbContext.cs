@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -14,7 +15,7 @@ using System.Data.Common;
 
 namespace OEleitor.Infra.Context
 {
-    public class OEleitorDbContext : DbContext, IUnitOfWork
+    public class OEleitorDbContext : IdentityDbContext, IUnitOfWork
     {
         private readonly IMediatorHandler _mediatorHandler;
         public OEleitorDbContext(DbContextOptions<OEleitorDbContext> options, 

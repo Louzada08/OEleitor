@@ -1,4 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using OEleitor.API.Configuration;
@@ -9,12 +12,18 @@ using OEleitor.Logs.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 SerilogSetup.ConfigureSerilog(builder.Configuration);
-
 builder.Host.UsingSerilog();
+
+//builder.Configuration
+//    .SetBasePath(builder.Environment.ContentRootPath)
+//    .AddJsonFile("appsettings.json", true, true)
+//    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
+//    .AddEnvironmentVariables();
 
 var connectionStr = builder.Configuration.GetConnectionString("OEleitorConnection");
 
-builder.Services.AddDbContextInjector(connectionStr);
+builder.Services.AddIdentityConfiguration(builder.Configuration);
+
 builder.Services.AddDbInjector();
 
 builder.Services.AddControllers(o =>
@@ -24,6 +33,8 @@ builder.Services.AddControllers(o =>
 {
     o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 });
+
+//builder.Services.AddApiConfiguration();
 
 var assembly = AppDomain.CurrentDomain.Load("OEleitor.Application");
 builder.Services.AddMediatR(assembly);
@@ -39,22 +50,7 @@ builder.Services.AddCors(options =>
     );
 });
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "OEleitor API", Version = "v1" });
-    c.CustomSchemaIds(i => i.FullName);
-    c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Insira apenas o token, sem a palavra-chave 'Bearer'",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "bearer",
-    });
-
-    c.OperationFilter<AuthenticationRequirementsOperationFilter>();
-});
-
+builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
 
@@ -70,9 +66,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() ||
-    app.Environment.IsEnvironment("Homolog")
+    app.Environment.IsEnvironment("Homolog") ||
+    app.Environment.IsEnvironment("Development-local")
    )
 {
     app.UseSwagger();

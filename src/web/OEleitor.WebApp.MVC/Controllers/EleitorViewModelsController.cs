@@ -17,7 +17,6 @@ namespace OEleitor.WebApp.MVC.Controllers
 
         // GET: BairroViewModels
         [HttpGet]
-        [Route("")]
         [Route("eleitores")]
         public async Task<IActionResult> Index()
         {

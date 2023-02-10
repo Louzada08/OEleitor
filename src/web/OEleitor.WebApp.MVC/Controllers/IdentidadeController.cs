@@ -1,0 +1,138 @@
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using OEleitor.WebApp.MVC.Models;
+using OEleitor.WebApp.MVC.Services;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+
+namespace OEleitor.WebApp.MVC.Controllers
+{
+    public class IdentidadeController : MainController
+  {
+    private readonly IAutenticacaoService _autenticacaoService;
+
+    public IdentidadeController(IAutenticacaoService autenticacaoService)
+    {
+      _autenticacaoService = autenticacaoService;
+    }
+
+    [HttpGet]
+    [Route("nova-conta")]
+    public IActionResult Registro()
+    {
+      return View();
+    }
+
+    //[HttpPost]
+    //[Route("nova-conta")]
+    //public async Task<IActionResult> Registro(UsuarioRegistro usuarioRegistro, string returnUrl = null)
+    //{
+    //  ViewData["ReturnUrl"] = returnUrl;
+
+    //  if (!ModelState.IsValid) return View(usuarioRegistro);
+
+    //  var resposta = await _autenticacaoService.Registro(usuarioRegistro);
+
+    //  if (ResponsePossuiErros(resposta.ResponseResult)) return View(usuarioRegistro);
+
+    //  await RealizarLogin(resposta);
+
+    //  if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", controllerName: "Patrimonio");
+
+    //  return LocalRedirect(returnUrl);
+    //}
+
+    [HttpPost]
+    [Route("nova-conta")]
+    public async Task<IActionResult> Registro(UsuarioRegistro usuarioRegistro)
+    {
+      if (!ModelState.IsValid) return View(usuarioRegistro);
+
+      var resposta = await _autenticacaoService.Registro(usuarioRegistro);
+
+      if (ResponsePossuiErros(resposta.ResponseResult)) return View(usuarioRegistro);
+
+     //await RealizarLogin(resposta);
+
+      return RedirectToAction("Index", "BairroViewModels");
+    }
+
+
+    [HttpGet]
+    [Route("login")]
+    public IActionResult Login(string returnUrl = null)
+    {
+      ViewData["ReturnUrl"] = returnUrl;
+
+      return View();
+    }
+
+    [HttpPost]
+    [Route("login")]
+    public async Task<IActionResult> Login(UsuarioLogin usuarioLogin, string returnUrl = null)
+    {
+      ViewData["ReturnUrl"] = returnUrl;
+
+      if (!ModelState.IsValid) return View(usuarioLogin);
+
+      var resposta = await _autenticacaoService.Login(usuarioLogin);
+
+            if (ResponsePossuiErros(resposta.ResponseResult))
+                return RedirectToAction("Registro", "Identidade");
+                //return View(usuarioLogin);
+
+      await RealizarLogin(resposta);
+
+      if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", controllerName: "BairroViewModels");
+
+      return LocalRedirect(returnUrl);
+    }
+
+    [HttpGet]
+    [Route("sair")]
+    public async Task<IActionResult> Logout()
+    {
+      await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+      return RedirectToAction("Index", "Patrimonio");
+    }
+
+    public async Task RealizarLogin(UsuarioRespostaLogin resposta)
+    {
+      var token = ObterTokenFormatado(resposta.AccessToken);
+
+      var claims = new List<Claim>();
+      claims.Add(new Claim("JWT", resposta.AccessToken));
+      //claims.Add(new Claim("RefreshToken", resposta.RefreshToken));
+      claims.AddRange(token.Claims);
+
+      var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+      var authProperties = new AuthenticationProperties
+      {
+        ExpiresUtc = DateTimeOffset.UtcNow.AddHours(60),
+        IsPersistent = true
+      };
+
+      await HttpContext.SignInAsync(
+          CookieAuthenticationDefaults.AuthenticationScheme,
+          new ClaimsPrincipal(claimsIdentity),
+          authProperties);
+    }
+
+    public static JwtSecurityToken ObterTokenFormatado(string jwtToken)
+    {
+      return new JwtSecurityTokenHandler().ReadToken(jwtToken) as JwtSecurityToken;
+    }
+
+    //public bool TokenExpirado()
+    //{
+    //  var jwt = _user.ObterUserToken();
+    //  if (jwt is null) return false;
+
+    //  var token = ObterTokenFormatado(jwt);
+    //  return token.ValidTo.ToLocalTime() < DateTime.Now;
+    //}
+
+  }
+}

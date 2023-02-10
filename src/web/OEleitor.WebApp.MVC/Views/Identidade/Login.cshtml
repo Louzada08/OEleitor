@@ -13,7 +13,7 @@
 
         <div class="card-body">
 
-            <h4 class="text-center text-break">Seja bem vindo ao Controle Patrimonial</h4>
+            <h4 class="text-center text-break">Seja bem vindo ao Controle O Eleitor</h4>
 
             <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                 <div class="form-group">
@@ -27,7 +27,7 @@
                     <input type="password" asp-for="Senha" class="form-control" />
                     <span asp-validation-for="Senha" class="text-danger"></span>
                     <p>
-                        @*<a data-toggle="modal" data-target="#resetSenhaModal">Esqueceu sua senha?</a>*@
+                        <a data-toggle="modal" data-target="#resetSenhaModal">Esqueceu sua senha?</a>
                     </p>
                 </div>
 
@@ -40,7 +40,7 @@
 
 </section>
 
-@*<partial name="_ResetSenha" model="new ResetSenhaViewModel()" />*@
+<partial name="_ResetSenha" model="new ResetSenhaViewModel()" />
 
 
 @section Scripts {
