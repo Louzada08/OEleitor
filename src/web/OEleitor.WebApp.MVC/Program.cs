@@ -25,6 +25,7 @@ builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
 
+
 app.UseExceptionHandler("/erro/500");
 app.UseStatusCodePagesWithRedirects("/erro/{0}");
 app.UseHsts();

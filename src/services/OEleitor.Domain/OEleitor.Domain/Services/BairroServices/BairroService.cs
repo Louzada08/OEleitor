@@ -16,11 +16,11 @@ public class BairroService : IBairroService
         _repository = repository;
     }
 
-    public async Task<Bairro> ObterPorId(Guid id)
+    public async Task<Bairro> ObterPorId(Guid? id)
     {
-        var queryCustomer = await _repository.GetByIdAsync(id);
+        var queryCustomer = await _repository.GetByIdAsync(id.Value);
 
-        if (queryCustomer is null) throw new Exception("Eleitor não encontrado.");
+        if (queryCustomer is null) throw new Exception("Bairro não encontrado.");
 
         return queryCustomer;
     }

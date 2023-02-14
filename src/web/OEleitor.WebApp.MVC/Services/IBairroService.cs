@@ -4,9 +4,9 @@ namespace OEleitor.WebApp.MVC.Services
 {
     public interface IBairroService
     { 
-        Task<IEnumerable<BairroViewModel>> ObterTodosBairros();
-       // Task<ResponseResult> AdicionarItemCarrinho(ItemProdutoViewModel produto);
-       // Task<ResponseResult> AtualizarItemCarrinho(Guid produtoId, ItemProdutoViewModel produto);
-       // Task<ResponseResult> RemoverItemCarrinho(Guid produtoId);
+        Task<PagedViewModel<BairroViewModel>> ObterTodosBairros(int pageSize, int pageIndex, string query = null);
+        // Task<ResponseResult> AtualizarItemCarrinho(Guid produtoId, ItemProdutoViewModel produto);
+        Task<BairroViewModel> ObterPorId(Guid? bairroId);
+        Task<ResponseResult> AdicionarBairro(BairroViewModel bairro);
     }
 }

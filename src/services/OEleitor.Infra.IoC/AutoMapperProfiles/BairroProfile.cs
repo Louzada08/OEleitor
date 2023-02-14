@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OEleitor.Application.Commands.EleitorModelo.Requests;
 using OEleitor.Application.Commands.EleitorModelo.Responses;
+using OEleitor.Domain.Dtos;
 using OEleitor.Domain.Entities;
 
 namespace Backoffice.Infra.IOC.AutoMapperProfiles;

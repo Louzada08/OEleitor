@@ -1,0 +1,59 @@
+﻿@using OEleitor.WebApp.MVC.Extensions
+@model PagedViewModel<BairroViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <h2>Bairros Cadastrados</h2>
+        </div>
+        <div class="col-lg-6"></div>
+        <div class="col-lg">
+            <h2></h2>
+            <a class="btn btn-primary" asp-action="Create" role="button">Novo Bairro</a>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nome do Bairro
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.TotalResults > 0)
+        {
+            @foreach (var item in Model.List.OrderBy(b => b.BairroNome))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BairroNome)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>
+                    Nenhum Bairro cadastrado ainda.
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    <vc:paginacao modelo-paginado="@Model"></vc:paginacao>
+
+</table>

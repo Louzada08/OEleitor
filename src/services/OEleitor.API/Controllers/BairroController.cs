@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using OEleitor.API.Controllers;
 using OEleitor.Application.Commands.EleitorModelo.Requests;
 using OEleitor.Application.Commands.EleitorModelo.Responses;
+using OEleitor.Domain.Entities;
+using OEleitor.Domain.Interfaces;
 using OEleitor.Domain.Interfaces.Services;
 using OEleitor.Domain.Mediator.Interfaces;
 
@@ -14,19 +16,20 @@ namespace Backoffice.Api.Controllers;
 public class BairroController : MainController
 {
     private readonly IBairroService _service;
+    private readonly IBairroRepository _bairroRepository;
     private readonly IMediatorHandler _mediator;
     private readonly IMapper _mapper;
 
 
-    public BairroController(IMediatorHandler mediator, IBairroService service, IMapper mapper) 
+    public BairroController(IMediatorHandler mediator, IBairroService service, IBairroRepository bairroRepository, IMapper mapper)
     {
         _service = service;
+        _bairroRepository = bairroRepository;
         _mediator = mediator;
         _mapper = mapper;
     }
 
     [HttpPost]
-    // [Authorize(Policy = "Loja")]
     [ProducesResponseType(typeof(AdicionarEleitorResponse), StatusCodes.Status201Created)]
     public async Task<IActionResult> Create([FromBody] AdicionarBairroCommand command)
     {
@@ -39,20 +42,22 @@ public class BairroController : MainController
     [ProducesResponseType(typeof(BairroResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(BairroResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetByAll()
+    public async Task<PagedResult<Bairro>> GetByAll([FromQuery] int ps = 8, [FromQuery] int page = 1, [FromQuery] string q = null)
     {
-        try
-        {
-            var bairros = _mapper.Map<IEnumerable<BairroResponse>>(await _service.ObterTodos());
+        var bairros = await _bairroRepository.ObterTodos(ps,page,q);
+        return bairros;
+    }
 
-            if (bairros.Any()) return CustomResponse(bairros);
+    [HttpGet("{id}")]
+    public async Task<IActionResult> BairroDetalhe(Guid? id)
+    {
+        if (id is null) return CustomResponse(NotFound());
 
-            return CustomResponse("Nenhum Bairro foi encontrado.");
-        }
-        catch (Exception ex)
-        {
-            return CustomResponse(ex.Message);
-        }
+        var bairro = await _service.ObterPorId(id);
+
+        if (bairro is null) return CustomResponse("Nenhum Bairro foi encontrado.");
+
+        return CustomResponse(bairro);
     }
 
 }

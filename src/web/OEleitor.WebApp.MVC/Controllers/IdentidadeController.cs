@@ -84,17 +84,17 @@ namespace OEleitor.WebApp.MVC.Controllers
 
       await RealizarLogin(resposta);
 
-      if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", controllerName: "BairroViewModels");
+     //if (string.IsNullOrEmpty(returnUrl)) 
+                return RedirectToAction("Index", controllerName: "Bairro");
 
-      return LocalRedirect(returnUrl);
+     // return LocalRedirect(returnUrl);
     }
 
-    [HttpGet]
-    [Route("sair")]
+    [HttpGet("sair")]
     public async Task<IActionResult> Logout()
     {
       await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-      return RedirectToAction("Index", "Patrimonio");
+      return RedirectToAction("Index", "BairroViewModels");
     }
 
     public async Task RealizarLogin(UsuarioRespostaLogin resposta)
