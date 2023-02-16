@@ -6,17 +6,17 @@
         public IEnumerable<T> List { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
+        public int PageTotalItems { get; set; }
+        public double PageCount => Math.Ceiling((double)PageTotalItems / PageSize);
         public string Query { get; set; }
-        public int TotalResults { get; set; }
-        public double TotalPages => Math.Ceiling((double)TotalResults / PageSize);
     }
     public interface IPagedList
     {
         public string ReferenceAction { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
+        public int PageTotalItems { get; set; }
+        public double PageCount { get; }
         public string Query { get; set; }
-        public int TotalResults { get; set; }
-        public double TotalPages { get; }
     }
 }

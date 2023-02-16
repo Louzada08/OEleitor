@@ -1,5 +1,4 @@
 ﻿using OEleitor.Application.Commands.EleitorModelo.Validations;
-using OEleitor.Application.Commands.EnderecoModelo.Requests;
 using OEleitor.Domain.Entities;
 using OEleitor.Infra.CrossCurtting.Messages;
 using System;
@@ -16,8 +15,7 @@ public class AdicionarEleitorCommand : Command
     public string? Email { get; set; }
     public FoneEleitor Fone { get; set; }
     public string? Observacao { get; set; }
-    public Guid EnderecoId { get; set; }
-    public EnderecoCommand Endereco { get; set; }
+    public Endereco Endereco { get; set; }
     public IEnumerable<AdicionarDependenteCommand> Dependentes { get; set; }
 
     public override bool IsValid()

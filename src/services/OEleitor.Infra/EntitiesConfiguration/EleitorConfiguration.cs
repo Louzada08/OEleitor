@@ -11,8 +11,33 @@ namespace OEleitor.Infra.EntitiesConfiguration
             builder.HasKey(t => t.Id);
             builder.Property(p => p.Nome).HasMaxLength(100).IsRequired();
             builder.Property(p => p.Apelido).HasMaxLength(50).IsRequired(false);
-            builder.Property(p => p.EnderecoId).IsRequired();
             builder.Property(p => p.Observacao).HasMaxLength(200).IsRequired();
+
+            builder.OwnsOne(e => e.Endereco, ender =>
+            {
+                ender.Property(c => c.Logradouro)
+                    .IsRequired()
+                    .HasColumnType($"varchar(80)");
+
+                ender.Property(c => c.Numero)
+                    .IsRequired(false);
+
+                ender.Property(c => c.Complemento)
+                    .IsRequired(false)
+                    .HasColumnType($"varchar(20)");
+
+                ender.Property(c => c.Cep)
+                    .IsRequired(false)
+                    .HasColumnType($"varchar(10)");
+
+                ender.Property(c => c.Cidade)
+                    .IsRequired()
+                    .HasColumnType($"varchar(50)");
+
+                ender.Property(c => c.Estado)
+                    .IsRequired()
+                    .HasColumnType($"varchar(02)");
+            });
 
             builder.OwnsOne(c => c.Fone, tf =>
             {
@@ -35,10 +60,7 @@ namespace OEleitor.Infra.EntitiesConfiguration
                     .HasColumnName("Fone2TemWhatsapp");
             });
 
-            builder.HasOne(f => f.Endereco)
-                .WithOne(c => c.Eleitor)
-                .HasForeignKey<Endereco>(c => c.EleitorId)
-                .OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(b => b.Bairro).WithOne();
 
             builder.HasMany(f => f.Dependentes)
                 .WithOne(c => c.Eleitor)

@@ -14,8 +14,6 @@ public class EleitorProfile : Profile
         
         CreateMap<Dependente, AdicionarDependenteCommand>().ReverseMap();
 
-        CreateMap<Endereco, EnderecoCommand>().ReverseMap();
-
         CreateMap<Bairro, BairroCommand>().ReverseMap();
     }
 }

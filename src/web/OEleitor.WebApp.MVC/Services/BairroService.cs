@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using OEleitor.WebApp.MVC.Dtos;
 using OEleitor.WebApp.MVC.Extensions;
+using OEleitor.WebApp.MVC.Filtros;
 using OEleitor.WebApp.MVC.Models;
 
 namespace OEleitor.WebApp.MVC.Services

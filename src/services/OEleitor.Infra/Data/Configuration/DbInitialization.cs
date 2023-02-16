@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using OEleitor.Infra.Context;
+using OEleitor.Infra.EntitiesConfiguration;
 
 namespace OEleitor.Infra.Data.Configuration
 {

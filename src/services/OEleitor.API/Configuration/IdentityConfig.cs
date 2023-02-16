@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using OEleitor.Infra.Context;
 using OEleitor.Infra.CrossCurtting.Identidade;
+using OEleitor.Infra.EntitiesConfiguration;
 using System.Text;
 
 namespace OEleitor.API.Configuration

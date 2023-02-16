@@ -8,17 +8,16 @@ using OEleitor.Domain.Mediator.Interfaces;
 using OEleitor.Infra.CrossCurtting.Data;
 using OEleitor.Infra.CrossCurtting.DomainObjects.Interfaces;
 using OEleitor.Infra.CrossCurtting.Messages;
-using OEleitor.Infra.EntitiesConfiguration;
 using OEleitor.Infra.Extensions;
 using System.Data;
 using System.Data.Common;
 
-namespace OEleitor.Infra.Context
+namespace OEleitor.Infra.EntitiesConfiguration
 {
     public class OEleitorDbContext : IdentityDbContext, IUnitOfWork
     {
         private readonly IMediatorHandler _mediatorHandler;
-        public OEleitorDbContext(DbContextOptions<OEleitorDbContext> options, 
+        public OEleitorDbContext(DbContextOptions<OEleitorDbContext> options,
                                 IMediatorHandler mediatorHandler) : base(options)
         {
             _mediatorHandler = mediatorHandler;
@@ -28,7 +27,6 @@ namespace OEleitor.Infra.Context
 
         public DbSet<Eleitor> Eleitores { get; set; }
         public DbSet<Dependente> Dependentes { get; set; }
-        public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Bairro> Bairros { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,6 +34,7 @@ namespace OEleitor.Infra.Context
             modelBuilder.Ignore<ValidationResult>();
             modelBuilder.Ignore<Event>();
             modelBuilder.Ignore<FoneEleitor>();
+            modelBuilder.Ignore<Endereco>();
 
             base.OnModelCreating(modelBuilder);
 
@@ -47,11 +46,10 @@ namespace OEleitor.Infra.Context
 
             foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
                     e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
-                    property.SetColumnType("varchar(100)");
+                property.SetColumnType("varchar(100)");
 
             modelBuilder.ApplyConfiguration(new EleitorConfiguration());
             modelBuilder.ApplyConfiguration(new DependenteConfiguration());
-            modelBuilder.ApplyConfiguration(new EnderecoConfiguration());
             modelBuilder.ApplyConfiguration(new BairroConfiguration());
         }
 

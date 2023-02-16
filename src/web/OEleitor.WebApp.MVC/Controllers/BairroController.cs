@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OEleitor.WebApp.MVC.Filtros;
 using OEleitor.WebApp.MVC.Models;
 using OEleitor.WebApp.MVC.Services;
 
@@ -18,9 +19,9 @@ namespace OEleitor.WebApp.MVC.Controllers
         [HttpGet]
         [Route("")]
         [Route("bairros")]
-        public async Task<IActionResult> Index([FromQuery] int ps = 8, [FromQuery] int page = 1, [FromQuery] string q = null)
+        public async Task<IActionResult> Index([FromQuery] int ps = 8, [FromQuery] int page = 1, [FromQuery] BairroQueryFiltro q = null)
         {
-            var bairros = await _bairroService.ObterTodosBairros(ps, page, q);
+            var bairros = await _bairroService.ObterTodosBairros(ps, page, q.NomeBairro);
             ViewBag.Pesquisa = q;
             bairros.ReferenceAction = "Index";
 

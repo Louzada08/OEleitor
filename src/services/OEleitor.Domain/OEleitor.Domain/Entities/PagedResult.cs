@@ -2,12 +2,12 @@
 
 namespace OEleitor.Domain.Entities
 {
-    public class PagedResult<T> where T : class
+    public class PagedResult<T>
     {
-        public IEnumerable<T> List { get; set; }
-        public int TotalResults { get; set; }
-        public int PageIndex { get; set; }
         public int PageSize { get; set; }
-        public string Query { get; set; }
+        public int PageCount { get; set; }
+        public int PageIndex { get; set; }
+        public int PageTotalItems { get; set; }
+        public IEnumerable<T> List { get; set; }
     }
 }

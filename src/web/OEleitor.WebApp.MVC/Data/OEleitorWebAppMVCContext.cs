@@ -12,7 +12,7 @@ namespace OEleitor.WebApp.MVC.Data
         }
 
         public DbSet<BairroViewModel> Bairros { get; set; }
-        public DbSet<EnderecoViewModel> Enderecos { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<EleitorViewModel> Eleitores { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

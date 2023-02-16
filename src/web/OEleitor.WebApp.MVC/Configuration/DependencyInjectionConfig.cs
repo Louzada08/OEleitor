@@ -29,11 +29,11 @@ namespace OEleitor.WebApp.MVC.Configuration
                 .AddTransientHttpErrorPolicy(
                     p => p.CircuitBreakerAsync(3, TimeSpan.FromSeconds(30)));
 
-            //services.AddHttpClient<IPatrimonioService, PatrimonioService>()
-            //  .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-            //          .AddPolicyHandler(PollyExtensions.EsperarTentar())
-            //          .AddTransientHttpErrorPolicy(
-            //              p => p.CircuitBreakerAsync(3, TimeSpan.FromSeconds(30)));
+            services.AddHttpClient<IEleitorService, EleitorService>()
+              .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                      .AddPolicyHandler(PollyExtensions.EsperarTentar())
+                      .AddTransientHttpErrorPolicy(
+                          p => p.CircuitBreakerAsync(3, TimeSpan.FromSeconds(30)));
 
             //services.AddHttpClient<ITermoTransferenciaService, TermoTransferenciaService>()
             //    .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()

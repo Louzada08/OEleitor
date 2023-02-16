@@ -11,6 +11,9 @@ namespace OEleitor.WebApp.MVC.AutoMapper
             CreateMap<BairroViewModel, BairroDTO>()
               .ReverseMap();
 
+            CreateMap<EleitorViewModel, EleitorDTO>()
+              .ReverseMap();
+
             CreateMap<UsuarioRegistro, UsuarioDTO>()
               .ForMember(d => d.Email, o => o.MapFrom(s => s.Email))
               .ForMember(d => d.Nome, o => o.MapFrom(s => s.Nome))

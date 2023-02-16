@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using OEleitor.Infra.Context;
+using OEleitor.Infra.EntitiesConfiguration;
 
 #nullable disable
 
@@ -165,9 +165,11 @@ namespace OEleitor.Infra.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("ProviderDisplayName")
@@ -205,9 +207,11 @@ namespace OEleitor.Infra.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Name")
+                        .HasMaxLength(128)
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Value")
@@ -240,7 +244,7 @@ namespace OEleitor.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bairros", (string)null);
+                    b.ToTable("Bairros");
                 });
 
             modelBuilder.Entity("OEleitor.Domain.Entities.Dependente", b =>
@@ -279,7 +283,7 @@ namespace OEleitor.Infra.Migrations
 
                     b.HasIndex("EleitorId");
 
-                    b.ToTable("Dependentes", (string)null);
+                    b.ToTable("Dependentes");
                 });
 
             modelBuilder.Entity("OEleitor.Domain.Entities.Eleitor", b =>
@@ -295,6 +299,9 @@ namespace OEleitor.Infra.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<Guid?>("BairroId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("timestamp with time zone");
 
@@ -306,9 +313,6 @@ namespace OEleitor.Infra.Migrations
 
                     b.Property<string>("Email")
                         .HasColumnType("varchar(100)");
-
-                    b.Property<Guid>("EnderecoId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -325,66 +329,10 @@ namespace OEleitor.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Eleitores", (string)null);
-                });
-
-            modelBuilder.Entity("OEleitor.Domain.Entities.Endereco", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("BairroId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Cep")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Cidade")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Complemento")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DataCadastro")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("EleitorId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasMaxLength(2)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Logradouro")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Numero")
-                        .HasMaxLength(5)
-                        .HasColumnType("varchar(100)");
-
-                    b.HasKey("Id");
-
                     b.HasIndex("BairroId")
                         .IsUnique();
 
-                    b.HasIndex("EleitorId")
-                        .IsUnique();
-
-                    b.ToTable("Enderecos", (string)null);
+                    b.ToTable("Eleitores");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -451,7 +399,45 @@ namespace OEleitor.Infra.Migrations
 
             modelBuilder.Entity("OEleitor.Domain.Entities.Eleitor", b =>
                 {
-                    b.OwnsOne("OEleitor.Domain.Entities.Eleitor.Fone#OEleitor.Domain.Entities.FoneEleitor", "Fone", b1 =>
+                    b.HasOne("OEleitor.Domain.Entities.Bairro", "Bairro")
+                        .WithOne()
+                        .HasForeignKey("OEleitor.Domain.Entities.Eleitor", "BairroId");
+
+                    b.OwnsOne("OEleitor.Domain.Entities.Endereco", "Endereco", b1 =>
+                        {
+                            b1.Property<Guid>("EleitorId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Cep")
+                                .HasColumnType("varchar(10)");
+
+                            b1.Property<string>("Cidade")
+                                .IsRequired()
+                                .HasColumnType("varchar(50)");
+
+                            b1.Property<string>("Complemento")
+                                .HasColumnType("varchar(20)");
+
+                            b1.Property<string>("Estado")
+                                .IsRequired()
+                                .HasColumnType("varchar(02)");
+
+                            b1.Property<string>("Logradouro")
+                                .IsRequired()
+                                .HasColumnType("varchar(80)");
+
+                            b1.Property<string>("Numero")
+                                .HasColumnType("text");
+
+                            b1.HasKey("EleitorId");
+
+                            b1.ToTable("Eleitores");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EleitorId");
+                        });
+
+                    b.OwnsOne("OEleitor.Domain.Entities.FoneEleitor", "Fone", b1 =>
                         {
                             b1.Property<Guid>("EleitorId")
                                 .HasColumnType("uuid");
@@ -474,39 +460,22 @@ namespace OEleitor.Infra.Migrations
 
                             b1.HasKey("EleitorId");
 
-                            b1.ToTable("Eleitores", (string)null);
+                            b1.ToTable("Eleitores");
 
                             b1.WithOwner()
                                 .HasForeignKey("EleitorId");
                         });
 
-                    b.Navigation("Fone");
-                });
-
-            modelBuilder.Entity("OEleitor.Domain.Entities.Endereco", b =>
-                {
-                    b.HasOne("OEleitor.Domain.Entities.Bairro", "Bairro")
-                        .WithOne()
-                        .HasForeignKey("OEleitor.Domain.Entities.Endereco", "BairroId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("OEleitor.Domain.Entities.Eleitor", "Eleitor")
-                        .WithOne("Endereco")
-                        .HasForeignKey("OEleitor.Domain.Entities.Endereco", "EleitorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.Navigation("Bairro");
 
-                    b.Navigation("Eleitor");
+                    b.Navigation("Endereco");
+
+                    b.Navigation("Fone");
                 });
 
             modelBuilder.Entity("OEleitor.Domain.Entities.Eleitor", b =>
                 {
                     b.Navigation("Dependentes");
-
-                    b.Navigation("Endereco");
                 });
 #pragma warning restore 612, 618
         }

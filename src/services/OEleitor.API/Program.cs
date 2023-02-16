@@ -14,12 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 SerilogSetup.ConfigureSerilog(builder.Configuration);
 builder.Host.UsingSerilog();
 
-//builder.Configuration
-//    .SetBasePath(builder.Environment.ContentRootPath)
-//    .AddJsonFile("appsettings.json", true, true)
-//    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
-//    .AddEnvironmentVariables();
-
 var connectionStr = builder.Configuration.GetConnectionString("OEleitorConnection");
 
 builder.Services.AddIdentityConfiguration(builder.Configuration);

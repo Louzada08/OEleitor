@@ -3,7 +3,7 @@
     public class AppSettings
     {
         public string AutenticacaoUrl { get; set; }
-        public string CatalogoUrl { get; set; }
+        public string EleitorUrl { get; set; }
         public string BairroUrl { get; set; }
     }
 }

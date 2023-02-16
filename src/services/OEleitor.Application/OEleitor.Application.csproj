@@ -1,18 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OEleitor.Domain\OEleitor.Domain\OEleitor.Domain.csproj" />
     <ProjectReference Include="..\OEleitor.Infra.CrossCurtting\OEleitor.Infra.CrossCurtting.csproj" />
+    <ProjectReference Include="..\OEleitor.Infra\OEleitor.Infra.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.3.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
-    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
   </ItemGroup>
 

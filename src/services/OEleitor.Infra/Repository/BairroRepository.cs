@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using OEleitor.Domain.Entities;
 using OEleitor.Domain.Interfaces;
-using OEleitor.Infra.Context;
 using OEleitor.Infra.Repository.Base;
 using Dapper;
-
+using OEleitor.Domain.Dtos;
+using OEleitor.Infra.EntitiesConfiguration;
 
 namespace OEleitor.Infra.Repository
 {
@@ -18,31 +18,35 @@ namespace OEleitor.Infra.Repository
             _context = context;
         }
 
-        public async Task<PagedResult<Bairro>> ObterTodos(int pageSize, int pageIndex, string query = null)
-        {
-            var sql = @$"SELECT * FROM Bairros 
-                      WHERE (@Nome IS NULL OR Nome LIKE '%' + @Nome + '%') 
-                      ORDER BY [BairroNome] 
-                      OFFSET {pageSize * (pageIndex - 1)} ROWS 
-                      FETCH NEXT {pageSize} ROWS ONLY 
-                      SELECT COUNT(Id) FROM Bairros 
-                      WHERE (@Nome IS NULL OR Nome LIKE '%' + @Nome + '%')";
+        //public async Task<PagedResult<BairroDto>> ObterTodos(int pageSize, int pageIndex, string query = null)
+        //{
+        //    var page = new PagedResult<BairroDto> { 
+        //        PageSize = pageSize,
+        //        PageIndex = pageIndex,
+        //        TotalResults = await Connection
+        //        @$"SELECT * FROM Bairros 
+        //              WHERE (@Nome IS NULL OR BairroNome LIKE '%@Nome%') 
+        //              ORDER BY BairroNome 
+        //              LIMIT {pageSize} 
+        //              OFFSET {(pageIndex - 1) * pageSize}";
+        //              //SELECT COUNT(Id) FROM Bairros 
+        //              //WHERE (@Nome IS NULL OR Nome LIKE '%' + @Nome + '%')";
 
-            var multi = await _context.Database.GetDbConnection()
-                .QueryMultipleAsync(sql, new { Nome = query });
+        //    var multi = await _context.Database.GetDbConnection()
+        //        .QueryMultipleAsync(sql, new { Nome = query });
 
-            var bairros = multi.Read<Bairro>();
-            var total = multi.Read<int>().FirstOrDefault();
+        //    var bairros = multi.Read<Bairro>();
+        //    var total = multi.Read<int>().FirstOrDefault();
 
-            return new PagedResult<Bairro>()
-            {
-                List = bairros,
-                TotalResults = total,
-                PageIndex = pageIndex,
-                PageSize = pageSize,
-                Query = query
-            };
+        //    return new PagedResult<Bairro>()
+        //    {
+        //        List = bairros,
+        //        TotalResults = total,
+        //        PageIndex = pageIndex,
+        //        PageSize = pageSize,
+        //        Query = query
+        //    };
 
-        }
+        //}
     }
 }

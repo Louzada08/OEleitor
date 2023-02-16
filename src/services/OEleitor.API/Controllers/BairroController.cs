@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OEleitor.API.Controllers;
 using OEleitor.Application.Commands.EleitorModelo.Requests;
 using OEleitor.Application.Commands.EleitorModelo.Responses;
-using OEleitor.Domain.Entities;
-using OEleitor.Domain.Interfaces;
+using OEleitor.Application.Query.Interface;
+using OEleitor.Domain.Filtros;
 using OEleitor.Domain.Interfaces.Services;
 using OEleitor.Domain.Mediator.Interfaces;
 
@@ -16,15 +15,15 @@ namespace Backoffice.Api.Controllers;
 public class BairroController : MainController
 {
     private readonly IBairroService _service;
-    private readonly IBairroRepository _bairroRepository;
+    private readonly IBairroQuery _bairroQuery;
     private readonly IMediatorHandler _mediator;
     private readonly IMapper _mapper;
 
 
-    public BairroController(IMediatorHandler mediator, IBairroService service, IBairroRepository bairroRepository, IMapper mapper)
+    public BairroController(IMediatorHandler mediator, IBairroService service, IBairroQuery bairroQuery, IMapper mapper)
     {
         _service = service;
-        _bairroRepository = bairroRepository;
+        _bairroQuery = bairroQuery;
         _mediator = mediator;
         _mapper = mapper;
     }
@@ -42,10 +41,10 @@ public class BairroController : MainController
     [ProducesResponseType(typeof(BairroResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(BairroResponse), StatusCodes.Status404NotFound)]
-    public async Task<PagedResult<Bairro>> GetByAll([FromQuery] int ps = 8, [FromQuery] int page = 1, [FromQuery] string q = null)
+    public async Task<IActionResult> GetByAll([FromQuery] int ps = 8, [FromQuery] int page = 1, [FromQuery] BairroQueryFiltro q = null)
     {
-        var bairros = await _bairroRepository.ObterTodos(ps,page,q);
-        return bairros;
+        var bairros = await _bairroQuery.ObterPaginadoTodos(ps,page,q);
+        return CustomResponse(bairros);
     }
 
     [HttpGet("{id}")]

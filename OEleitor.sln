@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEleitor.Logs", "src\servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEleitor.Infra", "src\services\OEleitor.Infra\OEleitor.Infra.csproj", "{1D78FA83-6A08-4CBF-A6EA-FE2EA002A17F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OEleitor.WebApp.MVC", "src\web\OEleitor.WebApp.MVC\OEleitor.WebApp.MVC.csproj", "{E653512A-BAE4-4855-BE33-722C28EEC645}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEleitor.WebApp.MVC", "src\web\OEleitor.WebApp.MVC\OEleitor.WebApp.MVC.csproj", "{E653512A-BAE4-4855-BE33-722C28EEC645}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OEleitor.Infra.CrossCurtting", "src\services\OEleitor.Infra.CrossCurtting\OEleitor.Infra.CrossCurtting.csproj", "{B3D4BF41-ECC0-4E15-B4CD-B865E62C1A2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEleitor.Infra.CrossCurtting", "src\services\OEleitor.Infra.CrossCurtting\OEleitor.Infra.CrossCurtting.csproj", "{B3D4BF41-ECC0-4E15-B4CD-B865E62C1A2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

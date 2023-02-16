@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OEleitor.Domain.Interfaces;
-using OEleitor.Infra.Context;
 using OEleitor.Infra.CrossCurtting.Identidade;
+using OEleitor.Infra.EntitiesConfiguration;
 using OEleitor.Infra.Repository;
 
 namespace OEleitor.Infra.IoC.IOC

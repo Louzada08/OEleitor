@@ -10,11 +10,6 @@ namespace OEleitor.Infra.EntitiesConfiguration
         {
             builder.HasKey(t => t.Id);
             builder.Property(p => p.BairroNome).HasMaxLength(50).IsRequired();
-
-            builder.HasOne(d => d.Endereco)
-                .WithOne(p => p.Bairro)
-                .HasForeignKey<Endereco>(fk => fk.BairroId)
-                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
