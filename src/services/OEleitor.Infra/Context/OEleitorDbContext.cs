@@ -8,11 +8,12 @@ using OEleitor.Domain.Mediator.Interfaces;
 using OEleitor.Infra.CrossCurtting.Data;
 using OEleitor.Infra.CrossCurtting.DomainObjects.Interfaces;
 using OEleitor.Infra.CrossCurtting.Messages;
+using OEleitor.Infra.EntitiesConfiguration;
 using OEleitor.Infra.Extensions;
 using System.Data;
 using System.Data.Common;
 
-namespace OEleitor.Infra.EntitiesConfiguration
+namespace OEleitor.Infra.Context
 {
     public class OEleitorDbContext : IdentityDbContext, IUnitOfWork
     {

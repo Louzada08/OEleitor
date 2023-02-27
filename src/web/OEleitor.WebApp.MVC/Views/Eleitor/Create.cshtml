@@ -1,0 +1,37 @@
+﻿@model OEleitor.WebApp.MVC.Models.EleitorViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="card border-0 mb-3">
+    <div class="card-header">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../Eleitores">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Novo eleitor</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="card-body" style="max-width: 35rem;">
+        <h5 class="card-title">Cadastrar de Eleitores</h5>
+        <form asp-action="NovoEleitor" asp-controller="Eleitor">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label">Nome do Eleitor</label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

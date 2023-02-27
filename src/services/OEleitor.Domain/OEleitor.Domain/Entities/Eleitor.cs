@@ -16,8 +16,8 @@ namespace OEleitor.Domain.Entities
         public Bairro? Bairro { get; private set; }
         public Endereco Endereco { get; protected set; }
         public FoneEleitor Fone { get; protected set; }
-        public ICollection<Dependente> Dependentes { get; private set; }
         public string? Observacao { get; private set; }
+        public ICollection<Dependente> Dependentes { get; private set; }
 
         protected Eleitor()
         {

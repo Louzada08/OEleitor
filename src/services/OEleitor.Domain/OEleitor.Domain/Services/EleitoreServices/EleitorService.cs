@@ -1,4 +1,5 @@
-﻿using OEleitor.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using OEleitor.Domain.Entities;
 using OEleitor.Domain.Interfaces;
 using OEleitor.Domain.Interfaces.Services;
 using System;
@@ -17,11 +18,13 @@ public class EleitorService : IEleitorService
 
     public async Task<Eleitor> ObterPorId(Guid id)
     {
-        var queryCustomer = await _repository.GetByIdAsync(id);
+        var queryEleitor = await _repository.GetAsync(x => x.Id.Equals(id),
+            x => x.Include(i => i.Dependentes)
+                  .Include(i => i.Bairro));
 
-        if (queryCustomer is null) throw new Exception("Eleitor não encontrado.");
+        if (queryEleitor is null) throw new Exception("Eleitor não encontrado.");
 
-        return queryCustomer;
+        return queryEleitor;
     }
 
     public async Task<Eleitor> AdicionaEleitor(Eleitor eleitor)

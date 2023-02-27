@@ -17,7 +17,7 @@ namespace OEleitor.Infra.CrossCurtting.Identidade
 
     private static short ObtemNivelDeAcesso(string claimValue)
     {
-      foreach (var item in Enum.GetValues(typeof(Funcoes)).Cast<Funcoes>())
+      foreach (var item in Enum.GetValues(typeof(FuncoesEnum)).Cast<FuncoesEnum>())
       {
         if (item.ToString().Contains(claimValue)) return (short)item;
       }

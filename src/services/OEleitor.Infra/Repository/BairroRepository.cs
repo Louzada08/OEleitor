@@ -5,7 +5,7 @@ using OEleitor.Domain.Interfaces;
 using OEleitor.Infra.Repository.Base;
 using Dapper;
 using OEleitor.Domain.Dtos;
-using OEleitor.Infra.EntitiesConfiguration;
+using OEleitor.Infra.Context;
 
 namespace OEleitor.Infra.Repository
 {

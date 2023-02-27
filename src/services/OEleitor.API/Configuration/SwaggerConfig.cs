@@ -5,11 +5,15 @@ namespace OEleitor.API.Configuration
 {
     public static class SwaggerConfig
     {
-        public static void AddSwaggerConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OEleitor API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "OEleitor API",
+                    Version = "v1"
+                });
                 c.CustomSchemaIds(i => i.FullName);
                 c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
                 {
@@ -22,19 +26,37 @@ namespace OEleitor.API.Configuration
 
                 c.OperationFilter<AuthenticationRequirementsOperationFilter>();
             });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo()
+            //    {
+            //        Title = "SEMUS OEleitor APIs",
+            //        Description = "Esta API faz parte do sistema OEleitor.",
+            //        Contact = new OpenApiContact() { Name = "Anderson Luiz Louzada", Email = "valuz.anderson.to@gmail.com" },
+            //        License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
+            //    });
+
+            //});
+
+            return services;
         }
 
-        public static void UseSwaggerConfiguration(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSwaggerConfiguration(this IApplicationBuilder app)
         {
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-               //c.RoutePrefix = "api/eleitores";
-                c.RoutePrefix = "api/bairros";
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                c.DocExpansion(DocExpansion.None);
-            });
+            app.UseSwaggerUI();
+
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //   //c.RoutePrefix = "api/eleitores";
+            //    c.RoutePrefix = "api/bairros";
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            //    c.DocExpansion(DocExpansion.None);
+            //});
+
+            return app;
         }
     }
 }

@@ -85,7 +85,7 @@ namespace OEleitor.WebApp.MVC.Controllers
       await RealizarLogin(resposta);
 
      //if (string.IsNullOrEmpty(returnUrl)) 
-                return RedirectToAction("Index", controllerName: "Bairro");
+                return RedirectToAction("Index", controllerName: "Eleitor");
 
      // return LocalRedirect(returnUrl);
     }

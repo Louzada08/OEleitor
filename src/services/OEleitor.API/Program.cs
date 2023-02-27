@@ -1,36 +1,30 @@
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using OEleitor.API.Configuration;
-using OEleitor.Infra.Data.Configuration;
+using OEleitor.Infra.CrossCurtting.Identidade;
 using OEleitor.Infra.IoC.IOC;
 using OEleitor.Logs.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-SerilogSetup.ConfigureSerilog(builder.Configuration);
-builder.Host.UsingSerilog();
+builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("appsettings.json", true, true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
+    .AddEnvironmentVariables();
 
 var connectionStr = builder.Configuration.GetConnectionString("OEleitorConnection");
 
-builder.Services.AddIdentityConfiguration(builder.Configuration);
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("JWT"));
+builder.Services.AddDbContextInjector(connectionStr);
+
+SerilogSetup.ConfigureSerilog(builder.Configuration);
+builder.Host.UsingSerilog();
 
 builder.Services.AddDbInjector();
 
-builder.Services.AddControllers(o =>
-{
-    o.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
-}).AddNewtonsoftJson(o =>
-{
-    o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-});
+builder.Services.AddIdentityConfiguration(builder.Configuration);
 
-//builder.Services.AddApiConfiguration();
-
-var assembly = AppDomain.CurrentDomain.Load("OEleitor.Application");
+var assembly = AppDomain.CurrentDomain.Load("OEleitor.API");
 builder.Services.AddMediatR(assembly);
 builder.Services.AddMediatorInjector();
 builder.Services.AddAutoMapperInjector();
@@ -44,29 +38,30 @@ builder.Services.AddCors(options =>
     );
 });
 
+builder.Services.AddApiConfiguration();
+
 builder.Services.AddSwaggerConfiguration();
+
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-app.EnsureMigrationsApplied();
+//app.EnsureMigrationsApplied();
 
-app.UseHttpsRedirection();
+app.UseSwaggerConfiguration();
+app.UseApiConfiguration(app.Environment);
 
-app.UseCors(x =>
-x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
-app.UseAuthentication();
-app.UseAuthorization();
 
-app.MapControllers();
+//if (app.Environment.IsDevelopment() ||
+//    app.Environment.IsEnvironment("Homolog") ||
+//    app.Environment.IsEnvironment("Development-local")
+//   )
+//{
+//}
+//app.UseHttpsRedirection();
 
-if (app.Environment.IsDevelopment() ||
-    app.Environment.IsEnvironment("Homolog") ||
-    app.Environment.IsEnvironment("Development-local")
-   )
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+//app.MapControllers();
 
 app.Run();

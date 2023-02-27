@@ -14,9 +14,11 @@ public class EleitorResponse
     public SexoEleitor Sexo { get; set; }
     public string? Email { get; set; }
     public EnderecoDto EnderecoDto { get; set; }
-    public FoneEleitor Fone { get; set; }
+    public Guid? BairroId { get; set; }
+    public BairroDto? BairroDto { get; set; }
+    public FoneEleitorDto FoneDto { get; set; }
     public string? Observacao { get; set; }
-    public ICollection<DependenteDto> DependentesDto { get; set; }
+    public List<DependenteDto> DependentesDto { get; set; }
 }
 
 public enum SexoEleitor

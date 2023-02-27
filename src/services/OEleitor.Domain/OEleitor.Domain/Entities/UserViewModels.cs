@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OEleitor.Infra.CrossCurtting.Identidade;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,7 +11,7 @@ namespace OEleitor.Domain.Entities
 
     public string Email { get; set; }
 
-    public string Funcao { get; set; }
+    public FuncoesEnum Funcao { get; set; }
 
     public bool Excluido { get; set; }
 

@@ -7,7 +7,7 @@
     {
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div style="width:4rem; height:4rem;">
-                <a class="navbar-brand" asp-action="Index" asp-controller="bairros">
+                <a class="navbar-brand" asp-action="Index" asp-controller="Eleitor">
                     <img alt="brasao" class="card-img-top" src="~/images/brasao.png" width="30" height="52">
                 </a>
             </div>
@@ -40,9 +40,9 @@
                         <div class="dropdown-menu" style="background-color: rgba(211, 212, 213, 0.67);" aria-labelledby="dropdown04">
                             <a class="dropdown-item" href="#">Baixa Patrimônio</a>
                             @{
-                                foreach (var funcao in AppUser.ObterClaims())
+                                foreach (var f in AppUser.ObterClaims())
                                 {
-                                    if (funcao.Type == "NivelDeAcesso" && int.Parse(funcao.Value) >= ((int)Funcoes.Operador))
+                                    if (f.Type == "NivelDeAcesso" && (ObterFuncao.ObterEnumIdPeloNome(f.Value) >= (int)FuncoesEnum.Operador))
                                     {
                                         <a class="dropdown-item" asp-controller="Responsavel" asp-action="Index">Cadastro de Responsável</a>
                                         <a class="dropdown-item" asp-controller="Usuario" asp-action="Index">Cadastro de Usuário</a>
@@ -84,7 +84,7 @@
     {
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div style="width:4rem; height:4rem;">
-                <a class="navbar-brand" asp-action="Index" asp-controller="Patrimonio">
+                <a class="navbar-brand" asp-action="Index" asp-controller="Eleitor">
                     <img alt="brasao" class="card-img-top" src="~/images/brasao.png">
                 </a>
             </div>

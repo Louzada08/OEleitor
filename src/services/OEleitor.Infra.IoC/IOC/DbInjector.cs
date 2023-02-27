@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using OEleitor.Domain.Interfaces;
+using OEleitor.Infra.Context;
 using OEleitor.Infra.CrossCurtting.Identidade;
-using OEleitor.Infra.EntitiesConfiguration;
 using OEleitor.Infra.Repository;
 
 namespace OEleitor.Infra.IoC.IOC
@@ -18,10 +19,10 @@ namespace OEleitor.Infra.IoC.IOC
             return services;
         }
 
-        //public static IServiceCollection AddDbContextInjector(this IServiceCollection services, string connectionString)
-        //{
-        //    services.AddDbContext<OEleitorDbContext>(options => options.UseNpgsql(connectionString));
-        //    return services;
-        //}
+        public static IServiceCollection AddDbContextInjector(this IServiceCollection services, string connectionString)
+        {
+            services.AddDbContext<OEleitorDbContext>(options => options.UseNpgsql(connectionString));
+            return services;
+        }
     }
 }

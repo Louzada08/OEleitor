@@ -74,7 +74,7 @@ namespace OEleitor.Application.Query
             page.List.ToList().ForEach(x => x.Bairro = bairro.Where(b => b.Id.Equals(x!.BairroId)).FirstOrDefault());
 
             var dependentes = await Connection.QueryAsync<DependenteDto>($@"
-                SELECT d.""Id"", d.""EleitorId"", d.""Nome"", d.""Fone"", * FROM  ""Dependentes"" d
+                SELECT d.""Id"", d.""EleitorId"", d.""Nome"" as NomeDependente, d.""Fone"", * FROM  ""Dependentes"" d
                     INNER JOIN ""Eleitores"" e ON d.""EleitorId"" = e.""Id""");
 
             page.List.ToList().ForEach(x => x.Dependentes = dependentes.Where(d => d.EleitorId.Equals(x.EleitorId)));

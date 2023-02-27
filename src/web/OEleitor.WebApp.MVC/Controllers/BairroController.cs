@@ -17,7 +17,6 @@ namespace OEleitor.WebApp.MVC.Controllers
         }
 
         [HttpGet]
-        [Route("")]
         [Route("bairros")]
         public async Task<IActionResult> Index([FromQuery] int ps = 8, [FromQuery] int page = 1, [FromQuery] BairroQueryFiltro q = null)
         {
@@ -28,14 +27,6 @@ namespace OEleitor.WebApp.MVC.Controllers
             return View(bairros);
         }
 
-        // GET: BairroViewModels
-        //[HttpGet]
-        //[Route("")]
-        //[Route("bairros")]
-        //public async Task<IActionResult> Index()
-        //{
-        //      return View(await _bairroService.ObterTodosBairros());
-        //}
 
         // GET: BairroViewModels/Details/5
         [HttpGet("{id}")]

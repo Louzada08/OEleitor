@@ -1,16 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using OEleitor.Infra.CrossCurtting.Identidade;
 using System.Collections.Generic;
 
 namespace OEleitor.Domain.Entities
 {
-    public class Usuario : IdentityUser
+    public class Usuario
     {
-        public string CPF { get; set; }
-        public string? Foto { get; set; }
+        public string Login { get; set; }
+        public string Senha { get; set; }
 
-        public bool PrimeiroAcesso { get; set; }
-        public StatusConta Status { get; set; }
-        protected Usuario() { }
+        public ICollection<Funcao> Funcoes { get; set; }
+
+        public Usuario()
+        {
+            Funcoes = new HashSet<Funcao>();
+        }
     }
 
     public enum StatusConta

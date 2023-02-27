@@ -2,6 +2,7 @@
 {
     public class EleitorDTO
   {
+        public Guid EleitorId { get; set; }
         public string Nome { get; set; }
         public string? Apelido { get; set; }
         public DateTime? Aniversario { get; set; }

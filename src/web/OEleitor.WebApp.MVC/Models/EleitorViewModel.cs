@@ -23,7 +23,7 @@ namespace OEleitor.WebApp.MVC.Models
         public string Fone2 { get; set; }
         public bool Fone2TemWhatsapp { get; set; }
         public string? Observacao { get; set; }
-        public IEnumerable<DependenteViewModel> Dependentes { get; set; }
+        public List<DependenteViewModel> Dependentes { get; set; } = new List<DependenteViewModel>();
 
     }
 }

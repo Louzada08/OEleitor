@@ -12,7 +12,7 @@ using System.Text;
 namespace OEleitor.API.Controllers;
 
 [Route("api/identidade")]
-public partial class AuthController : MainController
+public class AuthController : MainController
 {
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly UserManager<IdentityUser> _userManager;
@@ -49,7 +49,7 @@ public partial class AuthController : MainController
         if (result.Succeeded)
         {
 
-            var funcao = Funcao.ObterEnumIdPeloNome(usuarioRegistro.Funcao);
+            var funcao = ObterFuncao.ObterEnumNomePeloId((int)usuarioRegistro.Funcao);
 
             //var responsavelResult = await RegistrarResponsavel(usuarioRegistro);
 
@@ -59,7 +59,7 @@ public partial class AuthController : MainController
             //  return CustomResponse(responsavelResult.ValidationResult);
             //}
 
-            await _userManager.AddClaimAsync(user, new Claim("NivelDeAcesso", funcao.ToString("d2")));
+            await _userManager.AddClaimAsync(user, new Claim("NivelDeAcesso", funcao));
 
             return CustomResponse(await GerarJwt(usuarioRegistro.Email));
         }

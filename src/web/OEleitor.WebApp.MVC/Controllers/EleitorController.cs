@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OEleitor.WebApp.MVC.Filtros;
 using OEleitor.WebApp.MVC.Models;
 using OEleitor.WebApp.MVC.Services;
 
 namespace OEleitor.WebApp.MVC.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
+    [Authorize]
     public class EleitorController : MainController
     {
         private readonly IEleitorService _eleitorService;
@@ -16,16 +16,48 @@ namespace OEleitor.WebApp.MVC.Controllers
             _eleitorService = eleitorService;
         }
 
-        // GET: BairroViewModels
         [HttpGet]
-        [Route("eleitores")]
+        [Route("")]
+        [Route("Eleitor")]
+        [Route("Eleitores")]
+        [Route("Eleitor/Index")]
         public async Task<IActionResult> Index([FromQuery] int ps = 8, [FromQuery] int page = 1, [FromQuery] EleitorQueryFiltro q = null)
         {
-            return View(await _eleitorService.ObterTodosEleitores(ps, page, q.Nome));
+            var eleitores = await _eleitorService.ObterTodosEleitores(ps, page, q.Nome);
+            ViewBag.Pesquisa = q;
+            eleitores.ReferenceAction = "Index";
+
+            return View(eleitores);
+        }
+
+        // GET: EleitorViewModels/Details/5
+        [HttpGet("Eleitor/{id}")]
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var eleitorViewModel = await _eleitorService.ObterPorId(id);
+            if (eleitorViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(eleitorViewModel);
+        }
+
+
+        // GET: Eleitor/Create
+        public IActionResult Create()
+        {
+            return View();
         }
 
 
         [HttpPost]
+        [Route("Create")]
         public async Task<IActionResult> NovoEleitor(EleitorViewModel eleitor)
         {
             var response = await _eleitorService.AdicionarEleitor(eleitor);

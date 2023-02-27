@@ -32,7 +32,7 @@ namespace OEleitor.WebApp.MVC.Services
 
         public async Task<EleitorViewModel> ObterPorId(Guid? EleitorId)
         {
-            var response = await _httpClient.GetAsync($"api/bairros/{EleitorId}");
+            var response = await _httpClient.GetAsync($"api/eleitores/{EleitorId}");
 
             TratarErrosResponse(response);
 

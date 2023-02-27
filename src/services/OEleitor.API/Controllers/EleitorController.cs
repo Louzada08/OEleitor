@@ -28,7 +28,7 @@ public class EleitorController : MainController
         _mapper = mapper;
     }
 
-    [HttpPost]
+    [HttpPost("eleitor-novo")]
     // [Authorize(Policy = "Loja")]
     [ProducesResponseType(typeof(AdicionarEleitorResponse), StatusCodes.Status201Created)]
     public async Task<IActionResult> Create([FromBody] AdicionarEleitorCommand command)
@@ -52,15 +52,15 @@ public class EleitorController : MainController
     [ProducesResponseType(typeof(EleitorResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(EleitorResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetCustomerById(Guid ObterPorId)
+    public async Task<IActionResult> ObterPorEleitorId(Guid ObterPorId)
     {
         try
         {
-            var customer = _mapper.Map<EleitorResponse>(await _service.ObterPorId(ObterPorId));
+            var eleitor = _mapper.Map<EleitorResponse>(await _service.ObterPorId(ObterPorId));
 
-            if (customer is not null) return CustomResponse(customer);
+            if (eleitor is not null) return CustomResponse(eleitor);
 
-            return CustomResponse("Customer not found.");
+            return CustomResponse("Eleitor não encontrado.");
         }
         catch (Exception ex)
         {

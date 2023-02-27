@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using OEleitor.Infra.Context;
 using OEleitor.Infra.CrossCurtting.Data;
 using OEleitor.Infra.CrossCurtting.DomainObjects;
-using OEleitor.Infra.EntitiesConfiguration;
 using System.Linq.Expressions;
 
 namespace OEleitor.Infra.Repository.Base

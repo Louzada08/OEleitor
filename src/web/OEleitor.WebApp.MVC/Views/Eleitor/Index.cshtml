@@ -1,36 +1,87 @@
 ﻿@using OEleitor.WebApp.MVC.Models
-@model IEnumerable<EleitorViewModel>
+@model PagedViewModel<EleitorViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Cadastro de Eleitores</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Novo Eleitor</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                Nome do Eleitor
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EleitorId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EleitorId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EleitorId">Delete</a>
-            </td>
+        @if (Model.PageCount > 0)
+        {
+            @foreach (var item in Model.List)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.EleitorId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.EleitorId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.EleitorId">Delete</a> |
+                        @if (item.Dependentes.Any())
+                        {
+                            <a data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                &nbsp;&nbsp;Mostrar Dependentes
+                            </a>
+                        }
+                    </td>
+                </tr>
+                @if (item.Dependentes.Any())
+                {
+                    @*                <tr>
+        <td>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Dependentes
+        </button>
+        </td>
         </tr>
-}
+        *@
+                    <tr>
+                        <td>
+                            @foreach (var itemDep in item.Dependentes)
+                            {
+                                <div class="collapse" id="collapseExample">
+                                    <div class="card card-body">
+                                        @Html.DisplayFor(modelItem => itemDep.NomeDependente)
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td></td>
+                    </tr>
+
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td>
+                    Nenhum Bairro cadastrado ainda.
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg"><vc:paginacao modelo-paginado="@Model"></vc:paginacao></div>
+        <div class="col-lg-3"></div>
+    </div>
+</div>

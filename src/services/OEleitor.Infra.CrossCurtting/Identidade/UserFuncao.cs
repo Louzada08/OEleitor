@@ -2,7 +2,7 @@
 
 namespace OEleitor.Infra.CrossCurtting.Identidade
 {
-    public enum Funcoes
+    public enum FuncoesEnum
   {
     Desenvolvedor = 4,
     Administrador = 3,
@@ -10,21 +10,21 @@ namespace OEleitor.Infra.CrossCurtting.Identidade
     Operador = 1,
   }
 
-  public class Funcao
+  public class ObterFuncao
   {
     public string Nome { get; private set; }
     public int Codigo { get; private set; }
 
-    public Funcao() { }
+    public ObterFuncao() { }
 
-    public Funcao(int codigo = 0)
+    public ObterFuncao(int codigo = 0)
     {
       if (!ValidarCodigo(codigo)) throw new DomainException("Função inválida");
-      var funcao = (Funcoes)codigo;
+      var funcao = (FuncoesEnum)codigo;
       Nome = ObterEnumNomePeloId(codigo);
     }
 
-    public Funcao(string nome = "")
+    public ObterFuncao(string nome = "")
     {
       if (!ValidarNome(nome)) throw new DomainException("Função inválida");
       Codigo = ObterEnumIdPeloNome(nome);
@@ -32,20 +32,20 @@ namespace OEleitor.Infra.CrossCurtting.Identidade
 
     public static int ObterEnumIdPeloNome(string nome)
     {
-      var funcao = (Funcoes)Enum.Parse(typeof(Funcoes), nome);
+      var funcao = (FuncoesEnum)Enum.Parse(typeof(FuncoesEnum), nome);
       return (int)funcao;
     }
 
     public static string ObterEnumNomePeloId(int codigo)
     {
-      var funcao = (Funcoes)codigo;
+      var funcao = (FuncoesEnum)codigo;
       return funcao.ToString();
     }
 
     public static bool ValidarNome(string nome)
     {
       bool eValido = false;
-      foreach (var valor in Enum.GetNames(typeof(Funcoes)))
+      foreach (var valor in Enum.GetNames(typeof(FuncoesEnum)))
       {
         if (valor == nome)
         {
@@ -59,7 +59,7 @@ namespace OEleitor.Infra.CrossCurtting.Identidade
     public static bool ValidarCodigo(int codigo)
     {
       bool eValido = false;
-      foreach (var valor in Enum.GetValues(typeof(Funcoes)).Cast<Funcoes>())
+      foreach (var valor in Enum.GetValues(typeof(FuncoesEnum)).Cast<FuncoesEnum>())
       {
         if (valor.Equals(codigo))
         {
@@ -72,11 +72,11 @@ namespace OEleitor.Infra.CrossCurtting.Identidade
 
     public static object RetornaEnumPeloNome(string nome)
     {
-      foreach (var valor in Enum.GetNames(typeof(Funcoes)))
+      foreach (var valor in Enum.GetNames(typeof(FuncoesEnum)))
       {
         if (valor == nome)
         {
-          return Enum.Parse(typeof(Funcoes), valor);
+          return Enum.Parse(typeof(FuncoesEnum), valor);
         }
       }
       return null;
